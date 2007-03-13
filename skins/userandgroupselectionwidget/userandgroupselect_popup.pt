@@ -1,0 +1,214 @@
+<metal:block use-macro="here/global_defines/macros/defines" />
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      lang="en"
+      i18n:domain="plone"
+      tal:define="fieldId request/fieldId | string:;
+                  fieldType request/fieldType | string:id;
+                  close_window request/close_window | python: 1;
+                  multiVal request/multiVal | python: 1;">
+
+  <head metal:use-macro="here/header/macros/html_header">
+
+    <metal:fillbase fill-slot="base">
+        <base href="" tal:attributes="href here/renderBase" />
+    </metal:fillbase>
+
+    <metal:headslot fill-slot="head_slot"
+                    tal:define="language here/Language;
+                                lang language | default_language;
+                                charset site_properties/default_charset|string:utf-8">
+
+      <metal:cache use-macro="here/global_cache_settings/macros/cacheheaders">
+        Get the global cache headers located in global_cache_settings.
+      </metal:cache>
+
+    </metal:headslot>
+
+    <metal:javascriptslot fill-slot="javascript_head_slot">
+    <script language="javascript" tal:content="structure string:
+        function addSelectedUsers(e) {
+            if (e){
+                window.opener.userandgroupselect_setEntry('$fieldId', '$fieldType', e.id, e.value, $multiVal)
+            } else {
+                checkboxes = document.getElementsByName('ids')
+                j = 0
+                for (i = 0; i < checkboxes.length; i++) {
+                    e = checkboxes[i]
+                    if (e.checked == true){
+                        j ++
+                        window.opener.userandgroupselect_setEntry('$fieldId', '$fieldType', e.id, e.value, $multiVal)
+                    }
+                }
+            }
+        
+            if (1==${close_window}) {
+                window.close() 
+            }
+        }
+
+        function addSelectedGroups(e) {
+            if (e){
+                window.opener.userandgroupselect_setEntry('$fieldId', '$fieldType', e.id, e.value, $multiVal)
+            } else {
+                checkboxes = document.getElementsByName('ids')
+                j = 0
+                for (i = 0; i < checkboxes.length; i++) {
+                    e = checkboxes[i]
+                    if (e.checked == true){
+                        j ++
+                        window.opener.userandgroupselect_setEntry('$fieldId', '$fieldType', e.id, e.value, $multiVal)
+                    }
+                }
+            }
+        
+            if (1==${close_window}) {
+                window.close() 
+            }
+        }
+
+         ">
+    </script>
+    </metal:javascriptslot>
+
+</head>
+
+<body>
+
+<div class="documentContent"
+     tal:define="view context/@@atmemberselect_view;"
+     id="atmemberselect-popup">
+
+     <tal:dummy define="dummy view/initialize" />
+
+    <form action="#" 
+          tal:attributes="action string:${view/getQueryUrl}" 
+          method="post"
+          style="white-space:nowrap">
+
+        <div>
+          <strong><span i18n:translate="text_member_search"
+                        i18n:domain="plone">Search Member</span>:</strong><br />
+
+          <input id="search-box"
+                 tabindex=""
+                 name="searchabletext"
+                 type="text"
+                 size="15"
+                 value=""
+                 title="Search Site"
+                 accesskey="4"
+                 onfocus="clearField(this);"
+                 onBlur="setDefaultField(this)"
+                 i18n:attributes="title title_search_site;"
+                 tal:attributes="style python:test(request.get('searchabletext'), 'background-image: none !important', nothing);
+                                 tabindex tabindex/next" />
+        
+          <input class="searchButton" 
+                 type="submit"
+                 tabindex=""
+                 value="Search"
+                 tal:attributes="tabindex tabindex/next"
+                 i18n:attributes="value label_search;"
+                 i18n:domain="plone" />   
+
+        </div>
+
+        <div>
+          <strong><span i18n:translate="text_existing_groups"
+                        i18n:domain="plone">Groups</span>:</strong><br />
+
+          <input type="button" name="ids" id="#"
+                 tal:attributes="onclick string:javascript:addSelectedUsers(this);" />
+
+          <select name="selectgroup" size="1" id="memberselect-group-filter">
+            <tal:item repeat="group view/getGroupsForPulldown">
+                <tal:option define="selected python: view.isSelected('selectgroup', group[0])">
+                    <option tal:condition="python: not selected"
+                            tal:content="python: group[1]"
+                            tal:attributes="value python: group[0]">Group</option>
+                    <option tal:condition="selected"
+                            tal:attributes="value python: group[0];
+                                            selected string:selected"
+                            tal:content="python: group[1]">group</option>
+                </tal:option>
+            </tal:item>
+          </select>
+
+
+
+          <input type="submit" value="Search" class="searchButton" 
+                 i18n:domain="plone"
+                 i18n:attributes="value label_search" />
+        </div>
+
+        <input type="hidden" name="fieldId" tal:attributes="value fieldId" />
+        <input type="hidden" name="fieldType"  tal:attributes="value fieldType"/>
+        <input type="hidden" name="multiVal:int" tal:attributes="value multiVal"/>
+        <input type="hidden" name="close_window:int" tal:attributes="value close_window"/>
+    </form>
+
+
+    <div tal:define="resultBatch view/getBatch">
+        <div id="personal-addressbook-alphabatch" tal:condition="resultBatch/showBatch">
+            <span tal:repeat="page resultBatch/getPages">
+                <a href="#"
+                   tal:condition="python: page['visible'] and not page['current']"
+                   tal:attributes="href python: view.getQueryUrl(currentPage=page['value'])"
+                   tal:content="page/value">X</a>
+                <span tal:condition="python: not page['visible']"
+                      tal:content="page/value">X</span>
+                <strong tal:condition="python: page['current']"
+                   tal:content="page/value"
+                   class="current">X</strong>
+            </span>
+        </div>
+    
+        <table tal:define="entries resultBatch/getResults" cellpadding="0" cellspacing="0">
+            <thead>
+                <th>
+                  <input class="noborder"
+                         type="checkbox"
+                         src="select_all_icon.gif"
+                         name="selectButton"
+                         title="Select all items"
+                         checked="checked"
+                         onClick="toggleSelect(this, 'ids', true);"
+                         tal:condition="multiVal"
+                         tal:attributes="src string:$portal_url/select_all_icon.gif"/>
+                </th>
+                <th i18n:translate="listingheader_name">Name</th>
+            </thead>
+            <tbody>
+            <tbody>
+                <tr tal:repeat="entry entries">
+                    <td>
+                        <input type="button" name="ids" id="#"
+                               tal:condition="python: not multiVal"
+                               tal:attributes="id entry/fullname;
+                                               value entry/id;
+                                               onclick string:javascript:addSelectedUsers(this);" />
+                        <input type="checkbox" name="ids" id="#" class="noborder"
+                               tal:condition="multiVal"
+                               tal:attributes="id entry/fullname;
+                                               value entry/id;" />
+                    </td>
+                    <td tal:content="entry/fullname">fullname</td>
+                 </tr>
+            </tbody>
+          </table>
+    </div>
+
+    <input type="button" 
+           i18n:attributes="value add_selected_users" 
+           value="add selected users"
+           tal:condition="multiVal"
+           onclick="javascript:addSelectedUsers(0)"/>
+
+    <a href="javascript:window.close()" i18n:translate="memberselect_close">close window</a>
+
+</div>
+
+</body>
+</html>
