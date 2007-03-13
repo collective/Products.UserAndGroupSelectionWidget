@@ -23,6 +23,12 @@ __docformat__ = 'plaintext'
 
 from zope.interface import Interface
 
+class IGenericGroupTranslation(Interface):
+    """Utils to translate a generic name to a group name."""
+    
+    def convertToRealGroup(genericgroup):
+        """takes generic group and translates it to a real plone group."""
+
 class IUserAndGroupSelectView(Interface):
     """
     """

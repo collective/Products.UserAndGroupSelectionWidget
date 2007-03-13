@@ -25,11 +25,13 @@ __author__ = """Jens Klein <jens@bluedynamics.com>"""
 __docformat__ = 'plaintext' 
 
 import types
+from zope.component import ComponentLookupError
 from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.Widget import TypesWidget
 from Products.Archetypes.Registry import registerWidget
 from Products.Archetypes.utils import shasattr
+from Products.UserField.interfaces import IGenericGroupTranslation
 
 class UserAndGroupSelectionWidget(TypesWidget):
     _properties = TypesWidget._properties.copy()
@@ -37,7 +39,9 @@ class UserAndGroupSelectionWidget(TypesWidget):
         'macro'         : "userandgroupselect",
         'helper_js'     : ('userandgroupselect.js',),
         'size'          : 10,    # size of form-element taking the users
-        'groupName'     : '',    # takes the given group as default
+        'groupName'     : '',    # takes the given group as default, a group id
+                                 # or a generic group if supported (UserField 
+                                 # feature)
         'limitToGroup'  : True,  # only allow users from groupName
         'groupsOnly'    : False, # only allow to select groups
         'usersOnly'     : False, # only allow to select users
@@ -58,8 +62,18 @@ class UserAndGroupSelectionWidget(TypesWidget):
         # Remove the empty items manually
         if type(value) is types.ListType:
             value = [item for item in value if item]
-
         return value, kwargs
+    
+    security.declarePublic('getGroupId')
+    def getGroupId(self):
+        try:
+            translator = IGenericGroupTranslation(instance)
+        except ComponentLookupError:
+            pass
+        else:
+            groupid = translator.convertToRealGroup(self.groupName)
+        return group
+            
 
 registerWidget(UserAndGroupSelectionWidget,
                title='User and Group Selection Widget',
