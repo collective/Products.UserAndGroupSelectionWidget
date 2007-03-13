@@ -34,20 +34,13 @@ from Products.Archetypes.utils import shasattr
 class UserAndGroupSelectionWidget(TypesWidget):
     _properties = TypesWidget._properties.copy()
     _properties.update({
-        'macro'         : "userandgroupselection",
-        'helper_js'     : ('userandgroupselection.js',),
+        'macro'         : "userandgroupselect",
+        'helper_js'     : ('userandgroupselect.js',),
         'size'          : 10,    # size of form-element taking the users
-        'fieldType'     : 'id',  # ['nameemail'|'email'|'id']
         'groupName'     : '',    # takes the given group as default
         'limitToGroup'  : True,  # only allow users from groupName
         'groupsOnly'    : False, # only allow to select groups
         'usersOnly'     : False, # only allow to select users
-        'enableSearch'  : 1,     # enable search for userid, fullname or email
-        'close_window'  : -1,    # auto close window after user is selected 
-        'show_fullname' : 0,     # show fullname instead of user id in the 
-                                 # widget view macro
-        'link_to_home'  : 0,     # show_fullname if set, member id/fullname in 
-                                 # view macro will be hyperlink to member's home folder
         })
 
     security = ClassSecurityInfo()    
