@@ -40,11 +40,9 @@ class UserAndGroupSelectionWidget(TypesWidget):
         'helper_js'     : ('userandgroupselect.js',),
         'size'          : 10,    # size of form-element taking the users
         'groupName'     : '',    # takes the given group as default, a group id
-                                 # or a generic group if supported (UserField 
-                                 # feature)
+                                 # or a generic group if supported 
         'limitToGroup'  : True,  # only allow users from groupName
         'groupsOnly'    : False, # only allow to select groups
-        'usersOnly'     : False, # only allow to select users
         })
 
     security = ClassSecurityInfo()    

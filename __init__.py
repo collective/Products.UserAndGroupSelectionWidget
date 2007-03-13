@@ -27,6 +27,8 @@ logger = logging.getLogger('UserAndGroupSelectionWidget')
 logger.info('Installing Product')
 
 from widget import UserAndGroupSelectionWidget
+from interfaces import IGenericGroupTranslation
+
 from Products.CMFCore.DirectoryView import registerDirectory
 from config import GLOBALS
 registerDirectory('skins', GLOBALS)
