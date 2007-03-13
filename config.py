@@ -1,0 +1,2 @@
+PROJECTNAME = "UserandGroupSelectionWidget"
+GLOBALS = globals() 
