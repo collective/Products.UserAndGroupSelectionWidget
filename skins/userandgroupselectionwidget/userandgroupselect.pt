@@ -6,109 +6,6 @@
    <head><title></title></head>
    <body>
 
-     <metal:edit_macro_id define-macro="edit_id">
-            <input type="hidden" value=""
-                   tal:define="field_required field_required | nothing"
-                   tal:condition="python:not field_required and multiVal"
-                   tal:attributes="name string:$fieldName:default:list"
-                   />
-
-            <tal:single condition="not: multiVal">
-               <input tal:condition="value"
-                      size="30"
-                      type="text"
-                      value=""
-                      tal:define="member python:mtool.getMemberInfo(value);
-                                  fullname python:member and member['fullname'] or value;"
-                      tal:attributes="value string:$value ($fullname);
-                                      id string:${fieldId}_label"
-                      readonly="readonly"
-                      />
-               <input tal:condition="not: value"
-                      size="30"
-                      type="text"
-                      value=""
-                      tal:attributes="id string:${fieldId}_label"
-                      readonly="readonly"
-                      />
-               <input type="hidden"
-                      value=""
-                      name=""
-                      tal:attributes="name fieldName;
-                                      value value;
-                                      id fieldId"/>
-            </tal:single>
-            <tal:multi tal:condition="multiVal">
-               <select multiple="multiple"
-                       tal:attributes="name string:${fieldName}:list;
-                                       id string:$fieldId;
-                                       size size | python: 8;
-                                       tabindex tabindex/next;">
-
-                <tal:repeat repeat="username value">
-                  <tal:notnone tal:condition="python: username">
-                  <option selected="selected"
-                          tal:define="member python:mtool.getMemberInfo(username);
-                                      fullname python:member and member['fullname'] or username;"
-                          tal:attributes="value username"
-                          tal:content="string:$username ($fullname)">
-                  </option>
-                  </tal:notnone>
-                </tal:repeat>
-
-               </select>
-            </tal:multi>
-            <div>
-              <input type="button"
-                   class="searchButton"
-                   value="Browse..."
-                   onClick=""
-                   i18n:attributes="value button_browse"
-                   tal:define="groupName groupName | string:'';
-                               enableSearch enableSearch | python:1"
-                   tal:attributes="onClick string:javascript:memberselect_openBrowser('$here_url', '$fieldId',  '$groupName', $enableSearch, 'id', $multiVal, ${close_window})"
-                   />
-              <input type="button"
-                   class="destructive"
-                   value="Remove selected users"
-                   onClick=""
-                   i18n:attributes="value"
-                   tal:attributes="onClick string:javascript:memberselect_removeMember('${fieldId}', ${multiVal});
-                                   value python:multiVal and 'Remove selected users' or 'Remove user'"
-                   />
-            </div>
-     </metal:edit_macro_id>
-
-     <metal:edit_macro_email define-macro="edit_email">
-         <tal:single condition="not: multiVal">
-              <input size="30"
-                     type="text"
-                     value=""
-                     tal:attributes="value value;
-                                     name fieldName;
-                                     id fieldId;"/>
-         </tal:single>
-         <tal:multi tal:condition="multiVal"> 
-              <textarea tal:attributes="id fieldId;
-                                        name string:${fieldName}:lines;
-                                        cols widget/cols | nothing;
-                                        rows widget/rows | python:5;"
-                        tal:content="python:'\n'.join(value)" ></textarea>
-         </tal:multi>
-         <div>
-         <input type="button"
-                class="searchButton"
-                value="Browse..."
-                tal:condition="not:isAnon"
-                onClick=""
-                i18n:attributes="value button_browse"
-                tal:define="fieldType fieldType | string:email;
-                            groupName groupName | string:'';
-                            enableSearch enableSearch | python:1"
-                tal:attributes="onClick string:javascript:memberselect_openBrowser('$here_url', '$fieldId', '$groupName', $enableSearch, '$fieldType', $multiVal, ${close_window})"/>
-         </div>
-     </metal:edit_macro_email>
-
      <metal:view_macro define-macro="view" 
                        tal:define="value accessor;
                                    multiVal field/multiValued;">                                   
@@ -152,15 +49,7 @@
                            field_required field/required;
                            fieldId fieldId | fieldName;
                            size widget/size | nothing;
-                           close_window widget/close_window;
-                           groupName widget/groupName;
-                           enableSearch widget/enableSearch;">
-             <tal:condition condition="python:widget.fieldType == 'id'">
-                  <metal:use use-macro="context/memberselect/macros/edit_id" />
-             </tal:condition>
-             <tal:condition condition="python:widget.fieldType in ['email', 'nameemail']"> 
-                  <metal:use use-macro="context/memberselect/macros/edit_email" /> 
-             </tal:condition>
+                           groupName widget/groupName;">
           </div> 
        </metal:use>
      </metal:edit_macro>
