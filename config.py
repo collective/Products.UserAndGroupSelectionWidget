@@ -1,2 +1,2 @@
-PROJECTNAME = "UserandGroupSelectionWidget"
+PROJECTNAME = "UserAndGroupSelectionWidget"
 GLOBALS = globals() 
