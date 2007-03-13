@@ -70,7 +70,7 @@ class UserAndGroupSelectionWidget(TypesWidget):
             pass
         else:
             groupid = translator.convertToRealGroup(self.groupName)
-        return group
+        return groupid
             
 
 registerWidget(UserAndGroupSelectionWidget,
