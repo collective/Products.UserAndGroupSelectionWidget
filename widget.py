@@ -63,7 +63,7 @@ class UserAndGroupSelectionWidget(TypesWidget):
         return value, kwargs
     
     security.declarePublic('getGroupId')
-    def getGroupId(self):
+    def getGroupId(self, instance):
         try:
             translator = IGenericGroupTranslation(instance)
         except ComponentLookupError:
