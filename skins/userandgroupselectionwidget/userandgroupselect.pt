@@ -2,17 +2,19 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      i18n:domain="atmemberselectwidget">
+      i18n:domain="userandgroupselectionwidget">
    <head><title></title></head>
    <body>
 
      <metal:view_macro define-macro="view" 
                        tal:define="value accessor;
-                                   multiVal field/multiValued;">                                   
+                                   multiVal field/multiValued;">
+
        <tal:single tal:condition="not:multiVal">
+
           <tal:block tal:define="minfo python:mtool.getMemberInfo(value);
                                    home python:mtool.getHomeFolder(value);">
-               <a href="" tal:attributes="href home/absolute_url | nothing" tal:omit-tag="not:widget/link_to_home">
+               <a href="" tal:attributes="href home/absolute_url | nothing">
                  <tal:fullname tal:condition="widget/show_fullname"
                    ><tal:block tal:define="fullname minfo/fullname"
                                tal:content="fullname | value"
@@ -22,8 +24,11 @@
                  </tal:notfullname>
                </a>  
           </tal:block>
+
        </tal:single>
+
        <tal:multival tal:condition="multiVal">
+
            <tal:users tal:repeat="username value">  
              <tal:user tal:define="minfo python:mtool.getMemberInfo(username);
                                    home python:mtool.getHomeFolder(username);">
@@ -37,8 +42,10 @@
                  </tal:notfullname>
                </a><br />
              </tal:user>
-           </tal:users>  
+           </tal:users> 
+ 
        </tal:multival>
+
      </metal:view_macro>
 
      <metal:edit_macro define-macro="edit">
@@ -51,6 +58,7 @@
                            size widget/size | nothing;
                            groupName widget/groupName;">
           </div> 
+
        </metal:use>
      </metal:edit_macro>
 
