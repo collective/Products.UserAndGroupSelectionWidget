@@ -23,6 +23,9 @@ __docformat__ = 'plaintext'
 
 from Products.CMFCore.utils import getToolByName
 
+from Products.PluggableAuthService.interfaces.plugins \
+    import IUserEnumerationPlugin
+
 class MemberLookup(object):
     """This object contains the logic to list and search for users and groups.
     """

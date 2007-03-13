@@ -1,7 +1,7 @@
-function userandgroupselect_openBrowser(portal_url, groupName, multiVal) {
+function userandgroupselect_openBrowser(portal_url, groupId, multiVal) {
     var url = portal_url;
-    url += '/userandgroupselect_popup?groupname=';
-    url += groupName;
+    url += '/userandgroupselect_popup?selectgroup=';
+    url += groupId;
     url += '&multiVal:int=';
     url += multiVal;
 
