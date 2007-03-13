@@ -57,6 +57,80 @@
                            fieldId fieldId | fieldName;
                            size widget/size | nothing;
                            groupName widget/groupName;">
+
+            <input type="hidden" value=""
+                   tal:define="field_required field_required | nothing"
+                   tal:condition="python:not field_required and multiVal"
+                   tal:attributes="name string:$fieldName:default:list"
+                   />
+
+            <tal:single condition="not: multiVal">
+               <input tal:condition="value"
+                      size="30"
+                      type="text"
+                      value=""
+                      tal:define="member python:mtool.getMemberInfo(value);
+                                  fullname python:member and member['fullname'] or value;"
+                      tal:attributes="value string:$value ($fullname);
+                                      id string:${fieldId}_label"
+                      readonly="readonly"
+                      />
+               <input tal:condition="not: value"
+                      size="30"
+                      type="text"
+                      value=""
+                      tal:attributes="id string:${fieldId}_label"
+                      readonly="readonly"
+                      />
+               <input type="hidden"
+                      value=""
+                      name=""
+                      tal:attributes="name fieldName;
+                                      value value;
+                                      id fieldId"/>
+            </tal:single>
+
+            <tal:multi tal:condition="multiVal">
+               <select multiple="multiple"
+                       tal:attributes="name string:${fieldName}:list;
+                                       id string:$fieldId;
+                                       size size | python: 8;
+                                       tabindex tabindex/next;">
+
+                <tal:repeat repeat="username value">
+                  <tal:notnone tal:condition="python: username">
+                  <option selected="selected"
+                          tal:define="member python:mtool.getMemberInfo(username);
+                                      fullname python:member and member['fullname'] or username;"
+                          tal:attributes="value username"
+                          tal:content="string:$username ($fullname)">
+                  </option>
+                  </tal:notnone>
+                </tal:repeat>
+
+               </select>
+            </tal:multi>
+
+            <div>
+              <input type="button"
+                   class="searchButton"
+                   value="Browse..."
+                   onClick=""
+                   i18n:attributes="value button_browse"
+                   tal:define="groupName groupName | string:'';
+                               enableSearch enableSearch | python:1"
+                   tal:attributes="onClick string:javascript:userandgroupselect_openBrowser('${here_url}', '${groupName}', ${multiVal})"
+                   />
+              <input type="button"
+                   class="destructive"
+                   value="Remove selected users"
+                   onClick=""
+                   i18n:attributes="value"
+                   tal:attributes="onClick string:javascript:userandgroupselect_removeEntry('${fieldId}', ${multiVal});
+                                   value python:multiVal and 'Remove selected users' or 'Remove user'"
+                   />
+            </div>
+
           </div> 
 
        </metal:use>

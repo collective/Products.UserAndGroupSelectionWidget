@@ -23,12 +23,16 @@ __docformat__ = 'plaintext'
 
 from zope.interface import Interface
 
-class IATMemberSelectView(Interface):
+class IUserAndGroupSelectView(Interface):
     """
     """
     
     def initialize():
         """Initialize the view class.
+        """
+    
+    def getObjectUrl():
+        """Return the url of the current object.
         """
     
     def getQueryUrl(**kwargs):

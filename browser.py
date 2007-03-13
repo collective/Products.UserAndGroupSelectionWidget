@@ -28,20 +28,23 @@ from Products.Five import BrowserView
 
 from ZTUtils import make_query
 
-from interfaces import IATMemberSelectView
+from interfaces import IUserAndGroupSelectView
 from memberlookup import MemberLookup
 from alphabatch import AlphaBatch
 
-class ATMemberSelectView(BrowserView):
+class UserAndGroupSelectView(BrowserView):
     """See interfaces.IATMemberSelectView for documentation details.
     """
     
-    implements(IATMemberSelectView)
+    implements(IUserAndGroupSelectView)
     
     def initialize(self):
         """Initialize the view class.
         """
         self.memberlookup = MemberLookup(self.context)
+        
+    def getObjectUrl(self):
+        return self.context.absolute_url()
         
     def getQueryUrl(self, **kwargs):
         baseUrl = self.context.absolute_url()

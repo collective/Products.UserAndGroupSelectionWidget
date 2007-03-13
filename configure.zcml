@@ -4,10 +4,10 @@
 
     <browser:page
         for="*"
-        name="atmemberselect_view"
-        class=".browser.ATMemberSelectView"
+        name="userandgroupselect_view"
+        class=".browser.UserAndGroupSelectView"
         permission="zope.Public"
-        allowed_interface=".interfaces.IATMemberSelectView"
+        allowed_interface=".interfaces.IUserAndGroupSelectView"
     />
 
 </configure>

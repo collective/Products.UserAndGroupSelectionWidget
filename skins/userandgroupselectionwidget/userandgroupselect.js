@@ -1,21 +1,28 @@
+function userandgroupselect_openBrowser(portal_url, groupName, multiVal) {
+    var url = portal_url;
+    url += '/userandgroupselect_popup?groupname=';
+    url += groupName;
+    url += '&multiVal:int=';
+    url += multiVal;
 
-// function to open the popup window
-function userandgroupselect_openBrowser(portal_url, fieldId, groupName, enableSearch, fieldType, multiVal, close_window)
-{
-    if (-1 == close_window)
-        close_window = 1 - multiVal
-    Search = 0
-    if (groupName != '') {
-    	Search = 1
-    }
-    window.open(portal_url + '/userandgroupselect_popup?Search:int=' + Search + '&groupname='+ groupName + '&enableSearch:int=' + enableSearch + '&fieldId=' + fieldId + '&fieldType=' + fieldType + '&multiVal:int=' + multiVal + '&close_window:int='+close_window, 'memberselect_popup','dependent=yes,toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=500,height=550');
+    var defines = 'dependent=yes,';
+    defines += 'toolbar=no,';
+    defines += 'location=no,';
+    defines += 'status=no,';
+    defines += 'menubar=no,';
+    defines += 'scrollbars=yes,';
+    defines += 'resizable=yes,';
+    defines += 'width=500,';
+    defines += 'height=550';
+    
+    window.open(url,
+                'userandgroupselect_popup',
+                defines);
 }
 
-// function to return a reference from the popup window back into the widget
-function userandgroupselect_setEntry(fieldId, fieldType, username, label, multiVal)
-{
-    // differentiate between the single and mulitselect widget
-    // since the single widget has an extra label field.
+function userandgroupselect_setEntry(fieldId, fieldType, username, label, multiVal) {
+  // differentiate between the single and mulitselect widget
+  // since the single widget has an extra label field.
   pos = label.indexOf(' ')
   email = label.slice(0, pos)
   fullname = label.slice(pos + 1)
