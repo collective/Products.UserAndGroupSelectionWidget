@@ -31,7 +31,7 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.Widget import TypesWidget
 from Products.Archetypes.Registry import registerWidget
 from Products.Archetypes.utils import shasattr
-from Products.UserField.interfaces import IGenericGroupTranslation
+from interfaces import IGenericGroupTranslation
 
 class UserAndGroupSelectionWidget(TypesWidget):
     _properties = TypesWidget._properties.copy()
