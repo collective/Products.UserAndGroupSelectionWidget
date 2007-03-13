@@ -18,14 +18,14 @@ Author and Copyright
 --------------------
 
 Thanks to panjunyong (panjy at zopen.cn) for his work on ATMemberSelectWidget,
-which was the base for idea (and some parts of thre code) of this Widget.
+which was the base for idea (and some parts of the code) of this Widget.
 
 Authors: 
 
 - Robert Niederreiter <robertn@bluedynamics.com>,
 - Jens Klein <jens@bluedynamics.com>,  
 
-Copyright (C) 2006-2007 BlueDynamics Alliance, Innsbruck, Austria
+Copyright (C) 2007 BlueDynamics Alliance, Klein & Partner KEG, Austria
 
 This code was made for BKS Chur Project: 
 Communication-Platform/Intranet/e-learning.
@@ -47,7 +47,3 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-
- 
- 
