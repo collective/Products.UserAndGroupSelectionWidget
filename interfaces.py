@@ -35,6 +35,18 @@ class IGenericGroupTranslation(Interface):
         """
 
 
+class IGenericFilterTranslation(Interface):
+    """Utils to translate a generic name to a group name.
+    """
+    
+    def translateToFilterDefinition(genericfilter):
+        """Takes generic filter and translate it to a real filter definition.
+        
+        In case of an unmatching genericfilter this function MUST return the
+        original genericfilter.
+        """
+
+
 class IUserAndGroupSelectView(Interface):
     """View class interface for the selection popup.
     """
@@ -42,6 +54,7 @@ class IUserAndGroupSelectView(Interface):
     def getUserOrGroupTitle(id):
         """Return either the fullname of the user or the grou title.
         """
+
 
 class IUserAndGroupSelectPopupView(Interface):
     """View class interface for the selection popup.

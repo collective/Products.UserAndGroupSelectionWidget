@@ -21,11 +21,14 @@
 __author__ = """Robert Niederreiter <robertn@bluedynamics.com>"""
 __docformat__ = 'plaintext'
 
+import types
+
 from zope.component import ComponentLookupError
 
 from Products.CMFCore.utils import getToolByName
  
 from interfaces import IGenericGroupTranslation
+from interfaces import IGenericFilterTranslation
 
 class MemberLookup(object):
     """This object contains the logic to list and search for users and groups.
@@ -50,6 +53,17 @@ class MemberLookup(object):
         """Return the groups.
         """
         filter = self.widget.groupIdFilter
+        try:
+            filtertranslation = IGenericFilterTranslation(self.context)
+            filter = filtertranslation.translateToFilterDefinition(filter)
+        except ComponentLookupError:
+            pass
+        
+        if type(filter) in types.StringTypes:
+            filter = [filter,]
+        
+        # from now on filter must be a list of filterdefinition strings.
+            
         grouptool = getToolByName(self.context, 'portal_groups')
         groups = grouptool.listGroups()
         
@@ -99,27 +113,28 @@ class MemberLookup(object):
     def _groupIdFilterMatch(self, gid, filter):
         """Check if gid matches filter.
         """
-        # wildcard match
-        if filter.find('*') != -1:
-            # all groups are affected
-            if filter == '*':
-                return True
-            # wildcard matches like '*foo'
-            elif filter.startswith('*'):
-                if gid.endswith(filter[1:]):
+        for fil in filter:
+            # wildcard match
+            if fil.find('*') != -1:
+                # all groups are affected
+                if fil == '*':
                     return True
-            # wildcard matches like 'foo*'
-            elif filter.endswith('*'):
-                if gid.startswith(filter[:-1]):
-                    return True
-            # wildacard matches like '*foo*'
+                # wildcard matches like '*foo'
+                elif fil.startswith('*'):
+                    if gid.endswith(fil[1:]):
+                        return True
+                # wildcard matches like 'foo*'
+                elif fil.endswith('*'):
+                    if gid.startswith(fil[:-1]):
+                        return True
+                # wildacard matches like '*foo*'
+                else:
+                    if gid.find(fil[1:-1]) != -1:
+                        return True
+            # exact match
             else:
-                if gid.find(filter[1:-1]) != -1:
+                if fil == gid:
                     return True
-        # exact match
-        else:
-            if filter == gid:
-                return True
         
         return False
     
