@@ -52,17 +52,7 @@ class MemberLookup(object):
     def getGroups(self):
         """Return the groups.
         """
-        filter = self.widget.groupIdFilter
-        try:
-            filtertranslation = IGenericFilterTranslation(self.context)
-            filter = filtertranslation.translateToFilterDefinition(filter)
-        except ComponentLookupError:
-            pass
-        
-        if type(filter) in types.StringTypes:
-            filter = [filter,]
-        
-        # from now on filter must be a list of filterdefinition strings.
+        filter = self._allocateFilter()
         
         # TODO: alter grouptool with pas.
         grouptool = getToolByName(self.context, 'portal_groups')
@@ -86,9 +76,11 @@ class MemberLookup(object):
             'fullname': 'Max Mustermann',
         }
         """
+        filter = self._allocateFilter()
         group = self.currentgroupid
         st = self.searchabletext
         
+        # TODO: alter grouptool and membertool with pas.
         members = []
         if group != 'ignore' and group != '':
             pg = getToolByName(self.context, 'portal_groups')
@@ -98,8 +90,14 @@ class MemberLookup(object):
             if len(st) < 3:
                 return []
             pm = getToolByName(self.context, 'portal_membership')
-            # dirty
             members = pm.searchForMembers({'name': st})
+        
+        reduce = True
+        for fil in filter:
+            if fil == '*':
+                reduce == False
+        if reduce:
+            members = self._reduceMembers(members, filter)
         
         ret = []
         for member in members:
@@ -110,6 +108,19 @@ class MemberLookup(object):
             ret.append(entry)
         
         return self._sortMembers(ret)
+    
+    def _allocateFilter(self):
+        filter = self.widget.groupIdFilter
+        try:
+            filtertranslation = IGenericFilterTranslation(self.context)
+            filter = filtertranslation.translateToFilterDefinition(filter)
+        except ComponentLookupError:
+            pass
+        
+        if type(filter) in types.StringTypes:
+            filter = [filter,]
+        
+        return filter
 
     def _groupIdFilterMatch(self, gid, filter):
         """Check if gid matches filter.
@@ -144,6 +155,18 @@ class MemberLookup(object):
                     return True
         
         return False
+    
+    def _reduceMembers(self, members, filter):
+        """Reduce members to match filter.
+        """
+        #for fil in filter:
+        #    print fil
+            
+        #pg = getToolByName(self.context, 'portal_groups')
+        #group = pg.getGroupById(group)
+        #members = group.getGroupMembers()
+        
+        return members
     
     def _sortMembers(self, members):
         """Sort members dict alphabetically by fullname.
