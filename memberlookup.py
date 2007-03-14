@@ -63,7 +63,8 @@ class MemberLookup(object):
             filter = [filter,]
         
         # from now on filter must be a list of filterdefinition strings.
-            
+        
+        # TODO: alter grouptool with pas.
         grouptool = getToolByName(self.context, 'portal_groups')
         groups = grouptool.listGroups()
         
@@ -114,23 +115,29 @@ class MemberLookup(object):
         """Check if gid matches filter.
         """
         for fil in filter:
+            
             # wildcard match
             if fil.find('*') != -1:
+                
                 # all groups are affected
                 if fil == '*':
                     return True
+            
                 # wildcard matches like '*foo'
                 elif fil.startswith('*'):
                     if gid.endswith(fil[1:]):
                         return True
+                
                 # wildcard matches like 'foo*'
                 elif fil.endswith('*'):
                     if gid.startswith(fil[:-1]):
                         return True
+                
                 # wildacard matches like '*foo*'
                 else:
                     if gid.find(fil[1:-1]) != -1:
                         return True
+            
             # exact match
             else:
                 if fil == gid:
@@ -139,7 +146,7 @@ class MemberLookup(object):
         return False
     
     def _sortMembers(self, members):
-        """Sort members dict alphabetically by fullname property.
+        """Sort members dict alphabetically by fullname.
         """
         names = []
         tmp = {}
