@@ -5,50 +5,29 @@
       i18n:domain="userandgroupselectionwidget">
    <head><title></title></head>
    <body>
-
      <metal:view_macro define-macro="view" 
-                       tal:define="value accessor;
+                       tal:define="view context/@@userandgroupselect_view;
+                                   value accessor;
                                    multiVal field/multiValued;">
 
        <tal:single tal:condition="not:multiVal">
-
-          <tal:block tal:define="minfo python:mtool.getMemberInfo(value);
-                                   home python:mtool.getHomeFolder(value);">
-               <a href="" tal:attributes="href home/absolute_url | nothing">
-                 <tal:fullname tal:condition="widget/show_fullname"
-                   ><tal:block tal:define="fullname minfo/fullname"
-                               tal:content="fullname | value"
-                    /></tal:fullname>
-                 <tal:notfullname tal:condition="not:widget/show_fullname">
-                      <span tal:content="value"/>
-                 </tal:notfullname>
-               </a>  
-          </tal:block>
-
+         <div tal:content="python: view.getUserOrGroupTitle(value)">
+           UserOrGroupTitle
+         </div>
        </tal:single>
 
        <tal:multival tal:condition="multiVal">
-
-           <tal:users tal:repeat="username value">  
-             <tal:user tal:define="minfo python:mtool.getMemberInfo(username);
-                                   home python:mtool.getHomeFolder(username);">
-               <a href="" tal:attributes="href home/absolute_url | nothing" tal:omit-tag="not:widget/link_to_home">
-                 <tal:fullname tal:condition="widget/show_fullname"
-                   ><tal:block tal:define="fullname minfo/fullname"
-                               tal:content="fullname | username"
-                    /></tal:fullname>
-                 <tal:notfullname tal:condition="not:widget/show_fullname">
-                      <span tal:content="username"/>
-                 </tal:notfullname>
-               </a><br />
-             </tal:user>
+           <tal:users tal:repeat="userid value">  
+             <div tal:content="python: view.getUserOrGroupTitle(userid)">
+               UserOrGroupTitle
+             </div>
            </tal:users> 
- 
        </tal:multival>
 
      </metal:view_macro>
 
-     <metal:edit_macro define-macro="edit">
+     <metal:edit_macro define-macro="edit"
+                       tal:define="view context/@@userandgroupselect_view">
        <metal:use use-macro="field_macro | here/widgets/field/macros/edit">
 
           <div metal:fill-slot="widget_body"
@@ -69,9 +48,7 @@
                       size="30"
                       type="text"
                       value=""
-                      tal:define="member python:mtool.getMemberInfo(value);
-                                  fieldValue python:member and member['fullname'] or value;"
-                      tal:attributes="value string:$fieldValue;
+                      tal:attributes="value python: view.getUserOrGroupTitle(value);
                                       id string:${fieldId}_label"
                       readonly="readonly"
                       />
@@ -98,12 +75,10 @@
                                        size size | python: 8;
                                        tabindex tabindex/next;">
 
-                <tal:repeat repeat="member value">
-                  <tal:notnone tal:condition="python: member">
-                  <option tal:define="memberobj python:mtool.getMemberInfo(member);
-                                      fieldValue python:memberobj and memberobj['fullname'] or member;"
-                          tal:attributes="value member"
-                          tal:content="string:$fieldValue">
+                <tal:repeat repeat="guid value">
+                  <tal:notnone tal:condition="python: guid">
+                  <option tal:attributes="value guid"
+                          tal:content="python: view.getUserOrGroupTitle(guid)">
                   </option>
                   </tal:notnone>
                 </tal:repeat>

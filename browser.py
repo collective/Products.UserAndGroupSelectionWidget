@@ -26,14 +26,51 @@ import types
 from zope.interface import implements
 from Products.Five import BrowserView
 
+from Products.PlonePAS.interfaces.group import IGroupIntrospection
+
 from ZTUtils import make_query
+from Products.CMFCore.utils import getToolByName
 
 from interfaces import IUserAndGroupSelectView
+from interfaces import IUserAndGroupSelectPopupView
+
 from memberlookup import MemberLookup
 from alphabatch import AlphaBatch
 
+
 class UserAndGroupSelectView(BrowserView):
     """See interfaces.IUserAndGroupSelectView for documentation details.
+    """
+    
+    def getUserOrGroupTitle(self, id):
+        pas = getToolByName(self.context, 'acl_users')
+        user = pas.getUserById(id)
+        
+        if user is not None:
+            fullname = self._getPropertyForMember(user, 'fullname')
+            return fullname or id
+        
+        for pluginid, plugin in pas.plugins.listPlugins(IGroupIntrospection):
+            group = plugin.getGroupById(id)
+            if group is not None:
+                title = self._getPropertyForMember(group, 'title')
+                return title or id
+        
+        return id
+    
+    def _getPropertyForMember(self, member, propertyname):
+        propsheets = member.listPropertysheets()
+        for propsheettitle in propsheets:
+            propsheet = member.getPropertysheet(propsheettitle)
+            property = propsheet.getProperty(propertyname, None)
+            if property:
+                return property
+        
+        return None
+
+
+class UserAndGroupSelectPopupView(BrowserView):
+    """See interfaces.IUserAndGroupSelectPopupView for documentation details.
     """
     
     implements(IUserAndGroupSelectView)

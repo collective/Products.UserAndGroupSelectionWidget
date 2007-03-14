@@ -39,6 +39,14 @@ class IUserAndGroupSelectView(Interface):
     """View class interface for the selection popup.
     """
     
+    def getUserOrGroupTitle(id):
+        """Return either the fullname of the user or the grou title.
+        """
+
+class IUserAndGroupSelectPopupView(Interface):
+    """View class interface for the selection popup.
+    """
+    
     def initialize():
         """Initialize the view class.
         """

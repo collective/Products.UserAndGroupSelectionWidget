@@ -4,7 +4,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       lang="en"
       i18n:domain="plone"
-      tal:define="view context/@@userandgroupselect_view;
+      tal:define="view context/@@userandgroupselectpopup_view;
                   dummy view/initialize;
                   multiVal view/multiValued;
                   closeWindow view/closeWindow;
