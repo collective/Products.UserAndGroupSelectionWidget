@@ -1,6 +1,11 @@
-function userandgroupselect_openBrowser(portal_url, groupId, multiVal) {
+function userandgroupselect_openBrowser(portal_url,
+                                        fieldId,
+                                        groupId,
+                                        multiVal) {
     var url = portal_url;
-    url += '/userandgroupselect_popup?selectgroup=';
+    url += '/userandgroupselect_popup?fieldId=';
+    url += fieldId;
+    url += '&selectgroup=';
     url += groupId;
     url += '&multiVal:int=';
     url += multiVal;
@@ -20,7 +25,7 @@ function userandgroupselect_openBrowser(portal_url, groupId, multiVal) {
                 defines);
 }
 
-function userandgroupselect_setEntry(fieldId, fieldType, username, label, multiVal) {
+function userandgroupselect_setEntry(elem, fieldId, multiVal) {
   // differentiate between the single and mulitselect widget
   // since the single widget has an extra label field.
   pos = label.indexOf(' ')

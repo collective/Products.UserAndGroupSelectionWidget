@@ -4,8 +4,9 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       lang="en"
       i18n:domain="plone"
-      tal:define="multiVal request/multiVal | python: 1;
-                  groupName request/groupName | python: '';">
+      tal:define="fieldId request/fieldId;
+                  multiVal request/multiVal | python: 1;
+                  groupId request/selectgroup | python: '';">
 
   <head metal:use-macro="here/header/macros/html_header">
 
@@ -28,7 +29,7 @@
     <script language="javascript" tal:content="structure string:
         function addSelectedUsers(e) {
             if (e){
-                window.opener.userandgroupselect_setEntry(e.id, e.value, $multiVal);
+                window.opener.userandgroupselect_setEntry(e, '${fieldId}' $multiVal);
             } else {
                 checkboxes = document.getElementsByName('ids');
                 j = 0;
@@ -36,7 +37,7 @@
                     e = checkboxes[i];
                     if (e.checked == true){
                         j ++;
-                        window.opener.userandgroupselect_setEntry(e.id, e.value, $multiVal);
+                        window.opener.userandgroupselect_setEntry(e, '${fieldId}', $multiVal);
                     }
                 }
             }
@@ -74,7 +75,7 @@
      tal:define="view context/@@userandgroupselect_view;"
      id="userandgroupselect-popup">
 
-     <tal:dummy define="dummy view/initialize" />
+    <tal:dummy define="dummy view/initialize" />
 
     <form action="#" 
           tal:attributes="action string:${view/getObjectUrl}" 
@@ -117,7 +118,7 @@
                  tal:attributes="onclick string:javascript:addSelectedUsers(this);" />
 
           <select name="selectgroup" size="1" id="memberselect-group-filter">
-            <tal:item repeat="group view/getGroupsForPulldown">
+            <tal:item repeat="group python: view.getGroupsForPulldown()">
                 <tal:option define="selected python: view.isSelected('selectgroup', group[0])">
                     <option tal:condition="python: not selected"
                             tal:content="python: group[1]"
@@ -138,7 +139,8 @@
         </div>
 
         <input type="hidden" name="multiVal:int" tal:attributes="value multiVal"/>
-        <input type="hidden" name="groupName" tal:attributes="value groupName"/>
+        <input type="hidden" name="groupId" tal:attributes="value groupId"/>
+        <input type="hidden" name="fieldId" tal:attributes="value fieldId"/>
     </form>
 
 

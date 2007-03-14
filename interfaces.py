@@ -26,8 +26,12 @@ from zope.interface import Interface
 class IGenericGroupTranslation(Interface):
     """Utils to translate a generic name to a group name."""
     
-    def convertToRealGroup(genericgroup):
-        """takes generic group and translates it to a real plone group."""
+    def translateToRealGroupId(genericgroup):
+        """takes generic group and translates it to a real plone group id.
+        
+        In case of an unmatching genericgroup this function MUST return the
+        original genericgroup.
+        """
 
 class IUserAndGroupSelectView(Interface):
     """

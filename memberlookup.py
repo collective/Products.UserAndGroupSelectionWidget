@@ -21,28 +21,41 @@
 __author__ = """Robert Niederreiter <robertn@bluedynamics.com>"""
 __docformat__ = 'plaintext'
 
-from Products.CMFCore.utils import getToolByName
+from zope.component import ComponentLookupError
 
-from Products.PluggableAuthService.interfaces.plugins \
-    import IUserEnumerationPlugin
+from Products.CMFCore.utils import getToolByName
+ 
+from interfaces import IGenericGroupTranslation
 
 class MemberLookup(object):
     """This object contains the logic to list and search for users and groups.
     """
     
-    def __init__(self, context):
+    def __init__(self, context, widget):
         """Take the current zope context as argument and construct this object.
         """
         self.context = context
-    
+        self.widget = widget
+        self.searchabletext = request.get('searchabletext', '')
+        group = request.get('selectgroup', '')
+        try:
+            grouptranslation = IGenericGroupTranslation(self.context)
+            self.currentgroupid = grouptranslation.translateToRealGroupId(group)
+        except ComponentLookupError:
+            self.currentgroupid = group
+        
     def getGroups(self):
         """Return the plone groups.
         """
+        filter = self.widget.groupIdFilter
         grouptool = getToolByName(self.context, 'portal_groups')
         groups = grouptool.listGroups()
         ret = []
         for group in groups:
-            ret.append((group.getId(), group.getGroupTitleOrName()))
+            gid = group.getId()
+            if not self._groupIdFilterMatch(gid, filter):
+                continue
+            ret.append((gid, group.getGroupTitleOrName()))
         return ret
         
     def getMembers(self, request):
@@ -53,13 +66,13 @@ class MemberLookup(object):
             'fullname': 'Max Mustermann',
         }
         """
-        ag = request.get('selectgroup', '')
-        st = request.get('searchabletext', '')
+        group = self.currentgroupid
+        st = self.searchabletext
         
         members = []
-        if ag != 'ignore' and ag != '':
+        if group != 'ignore' and group != '':
             pg = getToolByName(self.context, 'portal_groups')
-            group = pg.getGroupById(ag)
+            group = pg.getGroupById(group)
             members = group.getGroupMembers()
         else:
             if len(st) < 3:
@@ -75,9 +88,41 @@ class MemberLookup(object):
                 'fullname': member.getProperty('fullname', ''),
             }
             ret.append(entry)
-        return self.sortMembers(ret)
+        return self._sortMembers(ret)
+
+    def _groupIdFilterMatch(self, gid, filter):
+        """
+        """
+        # wildcard match
+        if filter.find('*') != -1:
+                
+            # all groups are affected
+            if filter == '*':
+                return True
+            
+            # wildcard matches like '*foo'
+            elif filter.startswith('*'):
+                if gid.endswith(filter[1:]):
+                    return True
+            
+            # wildcard matches like 'foo*'
+            elif filter.endswith('*'):
+                if gid.startswith(filter[:-1]):
+                    return True
+            
+            # wildacard matches like '*foo*'
+            else:
+                if gid.find(filter[1:-1]) != -1:
+                    return True
+        
+        # exact match
+        else:
+            if filter == gid:
+                return True
+        
+        return False
     
-    def sortMembers(self, members):
+    def _sortMembers(self, members):
         """Sort entries.
         """
         names = []

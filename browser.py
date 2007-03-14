@@ -41,7 +41,10 @@ class UserAndGroupSelectView(BrowserView):
     def initialize(self):
         """Initialize the view class.
         """
-        self.memberlookup = MemberLookup(self.context)
+        schema = self.context.Schema()
+        fieldId = self.request['fieldId']
+        widget = schema[fieldId].widget
+        self.memberlookup = MemberLookup(self.context, widget)
         
     def getObjectUrl(self):
         return self.context.absolute_url()
