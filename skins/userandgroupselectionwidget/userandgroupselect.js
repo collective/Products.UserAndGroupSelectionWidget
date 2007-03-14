@@ -22,68 +22,43 @@ function userandgroupselect_openBrowser(portal_url,
                 defines);
 }
 
-function userandgroupselect_setEntry(elem, fieldId, multiVal) {
-  // differentiate between the single and mulitselect widget
-  // since the single widget has an extra label field.
-  pos = label.indexOf(' ')
-  email = label.slice(0, pos)
-  fullname = label.slice(pos + 1)
-  if (fieldType == 'id') {
-    label = username+' ('+fullname+')'
-    if (multiVal==0) {
-        element=document.getElementById(fieldId)
-        label_element=document.getElementById(fieldId + '_label')
-        element.value=username
-        label_element.value=label
-     }  else {
-         list=document.getElementById(fieldId)
-         // check if the item isn't already in the list
-          for (var x=0; x < list.length; x++) {
-            if (list[x].value == username) {
-              return false;
-            }
-          }         
-          // now add the new item
-          theLength=list.length;
-          list[theLength] = new Option(label);
-          list[theLength].selected='selected';
-          list[theLength].value=username
-     }
-   } else {
-     // email
-     if (fieldType == 'nameemail') {
-         label = '"' + fullname + '" <' + email + '>'
-     } else {
-         label = email
-     }
-     element=document.getElementById(fieldId)
-     if (multiVal==0) {
-         element.value=label
-     }  else {
-         element.value += label + '\n'
-     }
-   }
-}
-
-// function to clear the reference field or remove items
-// from the multivalued reference list.
-function userandgroupselect_removeEntry(widget_id, multi)
-{
-    if (multi) {
-        list=document.getElementById(widget_id)
-        for (var x=list.length-1; x >= 0; x--) {
-          if (list[x].selected) {
-            list[x]=null;
-          }
-        }
-        for (var x=0; x < list.length; x++) {
-            list[x].selected='selected';
-          }        
+function userandgroupselect_setEntry(elem, fieldId, multi) {
+    if (multi == 0) {
+        var field = document.getElementById(fieldId);
+        var field_label = document.getElementById(fieldId + '_label');
+        field.value = elem.id;
+        field_label.value = elem.value;
     } else {
-        element=document.getElementById(widget_id);
-        label_element=document.getElementById(widget_id + '_label');
-        label_element.value = "";
-        element.value="";
+        var list = document.getElementById(fieldId);
+        // check if the item isn't already in the list
+        for (var x = 0; x < list.length; x++) {
+            if (list[x].value == elem.id) {
+                return false;
+            }
+        }         
+        // now add the new item
+        var len = list.length;
+        list[len] = new Option(elem.value);
+        list[len].selected = 'selected';
+        list[len].value = elem.id;
     }
 }
 
+function userandgroupselect_removeEntry(fieldId, multi) {
+    if (multi == 0) {
+        var field = document.getElementById(fieldId);
+        var field_label = document.getElementById(fieldId + '_label');
+        field.value = '';
+        field_label.value = '';
+    } else {
+        var list = document.getElementById(FieldId);
+        for (var x = list.length - 1; x >= 0; x--) {
+            if (list[x].selected) {
+                list[x] = null;
+            }
+        }
+        for (var x = 0; x < list.length; x++) {
+            list[x].selected = 'selected';
+        }     
+    }
+}

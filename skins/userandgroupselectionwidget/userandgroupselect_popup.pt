@@ -7,6 +7,7 @@
       tal:define="view context/@@userandgroupselect_view;
                   dummy view/initialize;
                   multiVal view/multiValued;
+                  closeWindow view/closeWindow;
                   fieldId request/fieldId;
                   groupId request/selectgroup | python: '';">
 
@@ -31,38 +32,28 @@
     <script language="javascript" tal:content="structure string:
         function addSelectedUsers(e) {
             if (e){
-                window.opener.userandgroupselect_setEntry(e, '${fieldId}' $multiVal);
+                window.opener.userandgroupselect_setEntry(e, '${fieldId}', $multiVal);
             } else {
-                checkboxes = document.getElementsByName('ids');
-                j = 0;
-                for (i = 0; i < checkboxes.length; i++) {
-                    e = checkboxes[i];
+                checkboxes = document.getElementsByName('uids');
+                var j = 0;
+                for (var i = 0; i < checkboxes.length; i++) {
+                    var e = checkboxes[i];
                     if (e.checked == true){
                         j ++;
                         window.opener.userandgroupselect_setEntry(e, '${fieldId}', $multiVal);
                     }
                 }
             }
-        
-            window.close();
+            if ($closeWindow) {
+                window.close();
+            }
         }
 
-        function addSelectedGroups(e) {
-            if (e){
-                window.opener.userandgroupselect_setEntry(e.id, e.value, $multiVal);
-            } else {
-                checkboxes = document.getElementsByName('ids');
-                j = 0;
-                for (i = 0; i < checkboxes.length; i++) {
-                    e = checkboxes[i];
-                    if (e.checked == true){
-                        j ++;
-                        window.opener.userandgroupselect_setEntry(e.id, e.value, $multiVal);
-                    }
-                }
-            }
+        function addSelectedGroups() {
         
-            window.close();
+            if ($closeWindow) {
+                window.close();
+            }
         }
 
          ">
@@ -113,11 +104,8 @@
           <strong><span i18n:translate="text_existing_groups"
                         i18n:domain="plone">Groups</span>:</strong><br />
 
-          <input type="button" name="ids" id="#"
-                 tal:condition="python: not view.usersOnly()"
-                 tal:attributes="onclick string:javascript:addSelectedGroups(this);" />
-
-          <select name="selectgroup" size="1" id="memberselect-group-filter">
+          <select name="selectgroup" size="5" id="userandgroupselect-group-filter" multiple="multiple"
+                  tal:condition="python: view.multiValued()">
             <tal:item repeat="group python: view.getGroupsForPulldown()">
                 <tal:option define="selected python: view.isSelected('selectgroup', group[0])">
                     <option tal:condition="python: not selected"
@@ -131,14 +119,34 @@
             </tal:item>
           </select>
 
-
+          <select name="selectgroup" size="1" id="userandgroupselect-group-filter"
+                  tal:condition="python: not view.multiValued()">
+            <tal:item repeat="group python: view.getGroupsForPulldown()">
+                <tal:option define="selected python: view.isSelected('selectgroup', group[0])">
+                    <option tal:condition="python: not selected"
+                            tal:content="python: group[1]"
+                            tal:attributes="value python: group[0]">Group</option>
+                    <option tal:condition="selected"
+                            tal:attributes="value python: group[0];
+                                            selected string:selected"
+                            tal:content="python: group[1]">group</option>
+                </tal:option>
+            </tal:item>
+          </select>
 
           <input type="submit" value="Search" class="searchButton" 
                  i18n:domain="plone"
                  i18n:attributes="value label_search" />
+
+          <br />
+
+          <input type="button" name="addGroupButton"
+                 id="#" value="add selected group(s)"
+                 tal:condition="python: not view.usersOnly()"
+                 tal:attributes="onclick string:javascript:addSelectedGroups();" />
+
         </div>
 
-        <input type="hidden" name="multiVal:int" tal:attributes="value multiVal"/>
         <input type="hidden" name="groupId" tal:attributes="value groupId"/>
         <input type="hidden" name="fieldId" tal:attributes="value fieldId"/>
     </form>
@@ -178,15 +186,15 @@
             <tbody>
                 <tr tal:repeat="entry entries">
                     <td>
-                        <input type="button" name="ids" id="#"
+                        <input type="radio" name="uids" id="#"
                                tal:condition="python: not multiVal and not view.groupsOnly()"
-                               tal:attributes="id entry/fullname;
-                                               value entry/id;
+                               tal:attributes="id entry/id;
+                                               value entry/fullname;
                                                onclick string:javascript:addSelectedUsers(this);" />
-                        <input type="checkbox" name="ids" id="#" class="noborder"
+                        <input type="checkbox" name="uids" id="#" class="noborder"
                                tal:condition="python: multiVal and not view.groupsOnly()"
-                               tal:attributes="id entry/fullname;
-                                               value entry/id;" />
+                               tal:attributes="id entry/id;
+                                               value entry/fullname;" />
                     </td>
                     <td tal:content="entry/fullname">fullname</td>
                  </tr>
@@ -200,7 +208,7 @@
            tal:condition="multiVal"
            onclick="javascript:addSelectedUsers(0)"/>
 
-    <a href="javascript:window.close()" i18n:translate="memberselect_close">close window</a>
+    <a href="javascript:window.close()" i18n:translate="userandgroupselect_close">close window</a>
 
 </div>
 

@@ -70,8 +70,8 @@
                       type="text"
                       value=""
                       tal:define="member python:mtool.getMemberInfo(value);
-                                  fullname python:member and member['fullname'] or value;"
-                      tal:attributes="value string:$value ($fullname);
+                                  fieldValue python:member and member['fullname'] or value;"
+                      tal:attributes="value string:$fieldValue;
                                       id string:${fieldId}_label"
                       readonly="readonly"
                       />
@@ -91,6 +91,10 @@
             </tal:single>
 
             <tal:multi tal:condition="multiVal">
+
+               <div tal:content="fieldName" />
+               <div tal:content="fieldId" />
+
                <select multiple="multiple"
                        tal:attributes="name string:${fieldName}:list;
                                        id string:$fieldId;

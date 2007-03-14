@@ -32,12 +32,14 @@ class MemberLookup(object):
     """
     
     def __init__(self, context, request, widget):
-        """Take the current zope context as argument and construct this object.
+        """Construct this object and do base initialization.
         """
         self.context = context
         self.widget = widget
+        
         self.searchabletext = request.get('searchabletext', '')
         group = request.get('selectgroup', '')
+        
         try:
             grouptranslation = IGenericGroupTranslation(self.context)
             self.currentgroupid = grouptranslation.translateToRealGroupId(group)
@@ -45,21 +47,24 @@ class MemberLookup(object):
             self.currentgroupid = group
         
     def getGroups(self):
-        """Return the plone groups.
+        """Return the groups.
         """
         filter = self.widget.groupIdFilter
         grouptool = getToolByName(self.context, 'portal_groups')
         groups = grouptool.listGroups()
+        
         ret = []
         for group in groups:
             gid = group.getId()
             if not self._groupIdFilterMatch(gid, filter):
                 continue
+            
             ret.append((gid, group.getGroupTitleOrName()))
+        
         return ret
         
     def getMembers(self):
-        """Return the Users of the portal in the following form.
+        """Return the Users in the following form.
         
         {
             'id': 'mmustermann',
@@ -88,33 +93,29 @@ class MemberLookup(object):
                 'fullname': member.getProperty('fullname', ''),
             }
             ret.append(entry)
+        
         return self._sortMembers(ret)
 
     def _groupIdFilterMatch(self, gid, filter):
-        """
+        """Check if gid matches filter.
         """
         # wildcard match
         if filter.find('*') != -1:
-                
             # all groups are affected
             if filter == '*':
                 return True
-            
             # wildcard matches like '*foo'
             elif filter.startswith('*'):
                 if gid.endswith(filter[1:]):
                     return True
-            
             # wildcard matches like 'foo*'
             elif filter.endswith('*'):
                 if gid.startswith(filter[:-1]):
                     return True
-            
             # wildacard matches like '*foo*'
             else:
                 if gid.find(filter[1:-1]) != -1:
                     return True
-        
         # exact match
         else:
             if filter == gid:
@@ -123,24 +124,30 @@ class MemberLookup(object):
         return False
     
     def _sortMembers(self, members):
-        """Sort entries.
+        """Sort members dict alphabetically by fullname property.
         """
         names = []
         tmp = {}
+        
         for member in members:
             fullname = member['fullname'].lower()
             inUse = True
             p = 1
+            
             while inUse:
                 if fullname in tmp.keys():
                     fullname = fullname + str(p)
                     p += 1
                 else:
                     inUse = False
+            
             names.append(fullname)
             tmp[fullname] = member
+        
         names.sort()
         ret = []
+        
         for name in names:
             ret.append(tmp[name])
+        
         return ret

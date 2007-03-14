@@ -33,7 +33,7 @@ from memberlookup import MemberLookup
 from alphabatch import AlphaBatch
 
 class UserAndGroupSelectView(BrowserView):
-    """See interfaces.IATMemberSelectView for documentation details.
+    """See interfaces.IUserAndGroupSelectView for documentation details.
     """
     
     implements(IUserAndGroupSelectView)
@@ -43,19 +43,27 @@ class UserAndGroupSelectView(BrowserView):
         """
         schema = self.context.Schema()
         fieldId = self.request['fieldId']
-        self.multivalued = schema[fieldId].multiValued
-        self.widget = schema[fieldId].widget
+        
+        # compoundfield and arrayfield compatibility
+        field = self.context
+        fieldIds = fieldId.split('-')
+        for fieldId in fieldIds:
+            field = field.schema.get(fieldId)
+        
+        self.multivalued = field.multiValued
+        self.widget = field.widget
         self.memberlookup = MemberLookup(self.context,
                                          self.request,
                                          self.widget)
         
     def getObjectUrl(self):
-        return self.context.absolute_url()
+        r = '%s/%s' % (self.context.absolute_url(), 'userandgroupselect_popup')
+        return r
         
     def getQueryUrl(self, **kwargs):
         baseUrl = self.context.absolute_url()
         if self.request.get('fieldId', '') != '':
-            baseUrl += '/memberselect_popup'
+            baseUrl += '/userandgroupselect_popup'
         query = self._getQueryString(**kwargs)
         url = '%s?%s' % (baseUrl, query)
         return url
@@ -68,6 +76,10 @@ class UserAndGroupSelectView(BrowserView):
             if value in param:
                 return True
         return False
+    
+    def closeWindow(self):
+        # TODO
+        return 0
     
     def getGroupsForPulldown(self):
         ret = [('ignore', '-')]
@@ -84,7 +96,9 @@ class UserAndGroupSelectView(BrowserView):
         return self.widget.groupsOnly
     
     def multiValued(self):
-        return self.multivalued
+        if self.multivalued:
+            return 1
+        return 0
     
     def _getQueryString(self, **kwargs):
         params = dict()

@@ -24,17 +24,19 @@ __docformat__ = 'plaintext'
 from zope.interface import Interface
 
 class IGenericGroupTranslation(Interface):
-    """Utils to translate a generic name to a group name."""
+    """Utils to translate a generic name to a group name.
+    """
     
     def translateToRealGroupId(genericgroup):
-        """takes generic group and translates it to a real plone group id.
+        """Takes generic group and translate it to a real plone group id.
         
         In case of an unmatching genericgroup this function MUST return the
         original genericgroup.
         """
 
+
 class IUserAndGroupSelectView(Interface):
-    """
+    """View class interface for the selection popup.
     """
     
     def initialize():
@@ -51,6 +53,10 @@ class IUserAndGroupSelectView(Interface):
     
     def isSelected(param, value):
         """Return True if the given value of param was sent by the request.
+        """
+    
+    def closeWindow():
+        """Return wether to close the popup after selection or not.
         """
     
     def getGroupsForPulldown():
