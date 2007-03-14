@@ -98,13 +98,12 @@
                                        size size | python: 8;
                                        tabindex tabindex/next;">
 
-                <tal:repeat repeat="username value">
-                  <tal:notnone tal:condition="python: username">
-                  <option selected="selected"
-                          tal:define="member python:mtool.getMemberInfo(username);
-                                      fullname python:member and member['fullname'] or username;"
-                          tal:attributes="value username"
-                          tal:content="string:$username ($fullname)">
+                <tal:repeat repeat="member value">
+                  <tal:notnone tal:condition="python: member">
+                  <option tal:define="memberobj python:mtool.getMemberInfo(member);
+                                      fieldValue python:memberobj and memberobj['fullname'] or member;"
+                          tal:attributes="value member"
+                          tal:content="string:$fieldValue">
                   </option>
                   </tal:notnone>
                 </tal:repeat>

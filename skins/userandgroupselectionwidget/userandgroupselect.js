@@ -51,14 +51,15 @@ function userandgroupselect_removeEntry(fieldId, multi) {
         field.value = '';
         field_label.value = '';
     } else {
-        var list = document.getElementById(FieldId);
+        var list = document.getElementById(fieldId);
         for (var x = list.length - 1; x >= 0; x--) {
             if (list[x].selected) {
                 list[x] = null;
             }
         }
-        for (var x = 0; x < list.length; x++) {
-            list[x].selected = 'selected';
-        }     
+        // this seem not that senceful
+        // for (var x = 0; x < list.length; x++) {
+        //     list[x].selected = 'selected';
+        // }     
     }
 }
