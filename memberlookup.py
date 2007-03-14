@@ -89,7 +89,8 @@ class MemberLookup(object):
         if group != 'ignore' and group != '':
             pg = getToolByName(self.context, 'portal_groups')
             group = pg.getGroupById(group)
-            members = group.getGroupMembers()
+            if group:
+                members = group.getGroupMembers()
         else:
             if len(st) < 3:
                 return []
