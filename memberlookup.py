@@ -108,7 +108,8 @@ class MemberLookup(object):
         for member in members:
             entry = {
                 'id': member.getId(),
-                'fullname': member.getProperty('fullname', member.getId()),
+                'fullname': (member.getProperty('fullname', None) or \
+                             member.getId()),
             }
             ret.append(entry)
         

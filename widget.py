@@ -40,7 +40,7 @@ class UserAndGroupSelectionWidget(TypesWidget):
     _properties.update({
         'macro'                 : "userandgroupselect",
         'helper_js'             : ('userandgroupselect.js',),
-        'size'                  : 10,    # size of form-element taking the users
+        'size'                  : 7,    # size of form-element taking the users
         'groupName'             : '',    # takes the given group as default, a group id
         'usersOnly'             : False, # only allow user selection
         'groupsOnly'            : False, # allow only group selection
