@@ -1,14 +1,11 @@
 function userandgroupselect_openBrowser(portal_url,
                                         fieldId,
-                                        groupId,
-                                        multiVal) {
+                                        groupId) {
     var url = portal_url;
     url += '/userandgroupselect_popup?fieldId=';
     url += fieldId;
     url += '&selectgroup=';
     url += groupId;
-    url += '&multiVal:int=';
-    url += multiVal;
 
     var defines = 'dependent=yes,';
     defines += 'toolbar=no,';

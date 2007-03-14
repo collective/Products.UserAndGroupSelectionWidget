@@ -43,8 +43,11 @@ class UserAndGroupSelectView(BrowserView):
         """
         schema = self.context.Schema()
         fieldId = self.request['fieldId']
-        widget = schema[fieldId].widget
-        self.memberlookup = MemberLookup(self.context, widget)
+        self.multivalued = schema[fieldId].multiValued
+        self.widget = schema[fieldId].widget
+        self.memberlookup = MemberLookup(self.context,
+                                         self.request,
+                                         self.widget)
         
     def getObjectUrl(self):
         return self.context.absolute_url()
@@ -71,8 +74,17 @@ class UserAndGroupSelectView(BrowserView):
         return ret + self.memberlookup.getGroups()
     
     def getBatch(self):
-        members = self.memberlookup.getMembers(self.request)
+        members = self.memberlookup.getMembers()
         return AlphaBatch(members, self.context, self.request)
+    
+    def usersOnly(self):
+        return self.widget.usersOnly
+    
+    def groupsOnly(self):
+        return self.widget.groupsOnly
+    
+    def multiValued(self):
+        return self.multivalued
     
     def _getQueryString(self, **kwargs):
         params = dict()

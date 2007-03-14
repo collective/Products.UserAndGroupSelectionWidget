@@ -119,7 +119,7 @@
                    i18n:attributes="value button_browse"
                    tal:define="groupId groupId | string:'';
                                enableSearch enableSearch | python:1"
-                   tal:attributes="onClick string:javascript:userandgroupselect_openBrowser('${here_url}', '${fieldId}', '${groupId}', ${multiVal})"
+                   tal:attributes="onClick string:javascript:userandgroupselect_openBrowser('${here_url}', '${fieldId}', '${groupId}')"
                    />
               <input type="button"
                    class="destructive"

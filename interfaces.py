@@ -61,3 +61,15 @@ class IUserAndGroupSelectView(Interface):
         """Return a AlphaBatch object.
         """
     
+    def usersOnly():
+        """Return wether users only flag is set on widget or not.
+        """
+    
+    def groupsOnly():
+        """Return wether groups only flag is set on widget or not.
+        """
+    
+    def multiValued():
+        """Return wether field is multivalued or not.
+        """
+    

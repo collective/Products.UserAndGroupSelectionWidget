@@ -70,7 +70,7 @@ class UserAndGroupSelectionWidget(TypesWidget):
         except ComponentLookupError:
             pass
         else:
-            groupid = translator.convertToRealGroup(self.groupName)
+            groupid = translator.translateToRealGroupId(self.groupName)
         return groupid
             
 

@@ -4,8 +4,10 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       lang="en"
       i18n:domain="plone"
-      tal:define="fieldId request/fieldId;
-                  multiVal request/multiVal | python: 1;
+      tal:define="view context/@@userandgroupselect_view;
+                  dummy view/initialize;
+                  multiVal view/multiValued;
+                  fieldId request/fieldId;
                   groupId request/selectgroup | python: '';">
 
   <head metal:use-macro="here/header/macros/html_header">
@@ -72,10 +74,7 @@
 <body>
 
 <div class="documentContent"
-     tal:define="view context/@@userandgroupselect_view;"
      id="userandgroupselect-popup">
-
-    <tal:dummy define="dummy view/initialize" />
 
     <form action="#" 
           tal:attributes="action string:${view/getObjectUrl}" 
@@ -115,7 +114,8 @@
                         i18n:domain="plone">Groups</span>:</strong><br />
 
           <input type="button" name="ids" id="#"
-                 tal:attributes="onclick string:javascript:addSelectedUsers(this);" />
+                 tal:condition="python: not view.usersOnly()"
+                 tal:attributes="onclick string:javascript:addSelectedGroups(this);" />
 
           <select name="selectgroup" size="1" id="memberselect-group-filter">
             <tal:item repeat="group python: view.getGroupsForPulldown()">
@@ -179,12 +179,12 @@
                 <tr tal:repeat="entry entries">
                     <td>
                         <input type="button" name="ids" id="#"
-                               tal:condition="python: not multiVal"
+                               tal:condition="python: not multiVal and not view.groupsOnly()"
                                tal:attributes="id entry/fullname;
                                                value entry/id;
                                                onclick string:javascript:addSelectedUsers(this);" />
                         <input type="checkbox" name="ids" id="#" class="noborder"
-                               tal:condition="multiVal"
+                               tal:condition="python: multiVal and not view.groupsOnly()"
                                tal:attributes="id entry/fullname;
                                                value entry/id;" />
                     </td>

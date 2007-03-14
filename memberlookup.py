@@ -31,7 +31,7 @@ class MemberLookup(object):
     """This object contains the logic to list and search for users and groups.
     """
     
-    def __init__(self, context, widget):
+    def __init__(self, context, request, widget):
         """Take the current zope context as argument and construct this object.
         """
         self.context = context
@@ -58,7 +58,7 @@ class MemberLookup(object):
             ret.append((gid, group.getGroupTitleOrName()))
         return ret
         
-    def getMembers(self, request):
+    def getMembers(self):
         """Return the Users of the portal in the following form.
         
         {
