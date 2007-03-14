@@ -50,7 +50,24 @@
         }
 
         function addSelectedGroups() {
-        
+            var selection = document.getElementById('userandgroupselect-group-filter');
+            if ($multiVal) {
+                var id = '';
+                var value = '';
+                var options = selection.options;
+                for (var i = 0; i < options.length; i++) {
+                    if (options[i].selected == true) {
+                        id = options[i].value;
+                        value = options[i].text;
+                        window.opener.userandgroupselect_setEntry(id, value, '${fieldId}', $multiVal);
+                    }
+                }
+            } else {
+                var id = selection.options[selection.selectedIndex].value;
+                var value = selection.options[selection.selectedIndex].text;
+                window.opener.userandgroupselect_setEntry(id, value, '${fieldId}', $multiVal);
+            }
+            
             if ($closeWindow) {
                 window.close();
             }
@@ -176,7 +193,7 @@
                          name="selectButton"
                          title="Select all items"
                          checked="checked"
-                         onClick="toggleSelect(this, 'ids', true);"
+                         onClick="toggleSelect(this, 'uids', true);"
                          tal:condition="multiVal"
                          tal:attributes="src string:$portal_url/select_all_icon.gif"/>
                 </th>
