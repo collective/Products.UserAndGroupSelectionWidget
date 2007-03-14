@@ -22,25 +22,25 @@ function userandgroupselect_openBrowser(portal_url,
                 defines);
 }
 
-function userandgroupselect_setEntry(elem, fieldId, multi) {
+function userandgroupselect_setEntry(id, value, fieldId, multi) {
     if (multi == 0) {
         var field = document.getElementById(fieldId);
         var field_label = document.getElementById(fieldId + '_label');
-        field.value = elem.id;
-        field_label.value = elem.value;
+        field.value = id;
+        field_label.value = value;
     } else {
         var list = document.getElementById(fieldId);
         // check if the item isn't already in the list
         for (var x = 0; x < list.length; x++) {
-            if (list[x].value == elem.id) {
+            if (list[x].value == id) {
                 return false;
             }
         }         
         // now add the new item
         var len = list.length;
-        list[len] = new Option(elem.value);
+        list[len] = new Option(value);
         list[len].selected = 'selected';
-        list[len].value = elem.id;
+        list[len].value = id;
     }
 }
 

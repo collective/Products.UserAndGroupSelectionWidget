@@ -32,7 +32,7 @@
     <script language="javascript" tal:content="structure string:
         function addSelectedUsers(e) {
             if (e){
-                window.opener.userandgroupselect_setEntry(e, '${fieldId}', $multiVal);
+                window.opener.userandgroupselect_setEntry(e.id, e.value, '${fieldId}', $multiVal);
             } else {
                 checkboxes = document.getElementsByName('uids');
                 var j = 0;
@@ -40,7 +40,7 @@
                     var e = checkboxes[i];
                     if (e.checked == true){
                         j ++;
-                        window.opener.userandgroupselect_setEntry(e, '${fieldId}', $multiVal);
+                        window.opener.userandgroupselect_setEntry(e.id, e.value, '${fieldId}', $multiVal);
                     }
                 }
             }

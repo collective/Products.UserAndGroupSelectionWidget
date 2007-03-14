@@ -92,9 +92,6 @@
 
             <tal:multi tal:condition="multiVal">
 
-               <div tal:content="fieldName" />
-               <div tal:content="fieldId" />
-
                <select multiple="multiple"
                        tal:attributes="name string:${fieldName}:list;
                                        id string:$fieldId;
