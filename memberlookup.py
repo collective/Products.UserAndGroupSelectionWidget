@@ -32,6 +32,10 @@ from interfaces import IGenericFilterTranslation
 
 class MemberLookup(object):
     """This object contains the logic to list and search for users and groups.
+    
+    At the moment the user and group lookups are not all implemented the way
+    we want to work. Sometimes there is portal_membership and portal_groups
+    used. These things has to be changed that pure PAS is used.
     """
     
     def __init__(self, context, request, widget):
@@ -159,13 +163,7 @@ class MemberLookup(object):
     def _reduceMembers(self, members, filter):
         """Reduce members to match filter.
         """
-        #for fil in filter:
-        #    print fil
-            
-        #pg = getToolByName(self.context, 'portal_groups')
-        #group = pg.getGroupById(group)
-        #members = group.getGroupMembers()
-        
+        # TODO
         return members
     
     def _sortMembers(self, members):
