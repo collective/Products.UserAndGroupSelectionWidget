@@ -79,7 +79,7 @@
 
 </head>
 
-<body>
+<body id="userandgroupselect-popup-body">
 
 <div class="documentContent"
      id="userandgroupselect-popup">
