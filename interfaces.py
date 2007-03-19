@@ -76,10 +76,6 @@ class IUserAndGroupSelectPopupView(Interface):
         """Return True if the given value of param was sent by the request.
         """
     
-    def closeWindow():
-        """Return wether to close the popup after selection or not.
-        """
-    
     def getGroupsForPulldown():
         """Return the plone groups.
         """

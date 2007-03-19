@@ -114,10 +114,6 @@ class UserAndGroupSelectPopupView(BrowserView):
                 return True
         return False
     
-    def closeWindow(self):
-        # TODO
-        return 0
-    
     def getGroupsForPulldown(self):
         ret = [('ignore', '-')]
         return ret + self.memberlookup.getGroups()

@@ -7,7 +7,6 @@
       tal:define="view context/@@userandgroupselectpopup_view;
                   dummy view/initialize;
                   multiVal view/multiValued;
-                  closeWindow view/closeWindow;
                   fieldId request/fieldId;
                   groupId request/selectgroup | python: '';">
 
@@ -44,7 +43,7 @@
                     }
                 }
             }
-            if ($closeWindow) {
+            if ($multiVal == 0) {
                 window.close();
             }
         }
@@ -68,7 +67,7 @@
                 window.opener.userandgroupselect_setEntry(id, value, '${fieldId}', $multiVal);
             }
             
-            if ($closeWindow) {
+            if ($multiVal == 0) {
                 window.close();
             }
         }
@@ -219,13 +218,19 @@
           </table>
     </div>
 
-    <input type="button" 
-           i18n:attributes="value add_selected_users" 
-           value="add selected users"
-           tal:condition="multiVal"
-           onclick="javascript:addSelectedUsers(0)"/>
+    <div tal:condition="multiVal">
+      <input type="button" 
+             i18n:attributes="value add_selected_users" 
+             value="add selected users"
+             onclick="javascript:addSelectedUsers(0)" />
 
-    <a href="javascript:window.close()" i18n:translate="userandgroupselect_close">close window</a>
+      <br />
+
+      <input type="button"
+             i18n:attributes="value userandgroupselect_close"
+             value="close window"
+             onclick="javascript:window.close()" />
+    </div>
 
 </div>
 
