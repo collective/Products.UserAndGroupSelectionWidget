@@ -3,7 +3,7 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       lang="en"
-      i18n:domain="plone"
+      i18n:domain="userandgroupselectionwidget"
       tal:define="view context/@@userandgroupselectpopup_view;
                   dummy view/initialize;
                   multiVal view/multiValued;
@@ -35,7 +35,7 @@
             } else {
                 checkboxes = document.getElementsByName('uids');
                 var j = 0;
-                for (var i = 0; i < checkboxes.length; i++) {
+                for (var i = 0; i &lt; checkboxes.length; i++) {
                     var e = checkboxes[i];
                     if (e.checked == true){
                         j ++;
@@ -54,7 +54,7 @@
                 var id = '';
                 var value = '';
                 var options = selection.options;
-                for (var i = 0; i < options.length; i++) {
+                for (var i = 0; i &lt; options.length; i++) {
                     if (options[i].selected == true) {
                         id = options[i].value;
                         value = options[i].text;
@@ -89,8 +89,7 @@
           style="white-space:nowrap">
 
         <div>
-          <strong><span i18n:translate="text_member_search"
-                        i18n:domain="plone">Search Member</span>:</strong><br />
+          <strong><span i18n:translate="text_member_search">Search Member:</span></strong><br />
 
           <input id="search-box"
                  tabindex=""
@@ -111,14 +110,12 @@
                  tabindex=""
                  value="Search"
                  tal:attributes="tabindex tabindex/next"
-                 i18n:attributes="value label_search;"
-                 i18n:domain="plone" />   
+                 i18n:attributes="value label_search;"/>   
 
         </div>
 
         <div>
-          <strong><span i18n:translate="text_existing_groups"
-                        i18n:domain="plone">Groups</span>:</strong><br />
+          <strong><span i18n:translate="text_existing_groups">Groups:</span></strong><br />
 
           <select name="selectgroup" size="5" id="userandgroupselect-group-filter" multiple="multiple"
                   tal:condition="python: view.multiValued()">
@@ -151,7 +148,6 @@
           </select>
 
           <input type="submit" value="Search" class="searchButton" 
-                 i18n:domain="plone"
                  i18n:attributes="value label_search" />
 
           <br />
@@ -198,7 +194,6 @@
                 </th>
                 <th i18n:translate="listingheader_name">Name</th>
             </thead>
-            <tbody>
             <tbody>
                 <tr tal:repeat="entry entries">
                     <td>
