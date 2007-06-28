@@ -66,10 +66,16 @@ class UserAndGroupSelectionWidget(TypesWidget):
     
     security.declarePublic('getGroupId')
     def getGroupId(self, instance):
+        groupid = self.groupName
         try:
             translator = IGenericGroupTranslation(instance)
         except ComponentLookupError:
             pass
+        except TypeError, e:
+            if e[0] == 'Could not adapt':
+                pass
+            else:
+                raise        
         else:
             groupid = translator.translateToRealGroupId(self.groupName)
         return groupid

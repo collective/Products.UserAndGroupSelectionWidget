@@ -52,6 +52,12 @@ class MemberLookup(object):
             self.currentgroupid = grouptranslation.translateToRealGroupId(group)
         except ComponentLookupError:
             self.currentgroupid = group
+        except TypeError, e:
+            if e[0] == 'Could not adapt':
+                self.currentgroupid = group
+            else:
+                raise
+        return            
         
     def getGroups(self):
         """Return the groups.
@@ -122,6 +128,11 @@ class MemberLookup(object):
             filter = filtertranslation.translateToFilterDefinition(filter)
         except ComponentLookupError:
             pass
+        except TypeError, e:
+            if e[0] == 'Could not adapt':
+                pass
+            else:
+                raise        
         
         if type(filter) in types.StringTypes:
             filter = [filter,]
