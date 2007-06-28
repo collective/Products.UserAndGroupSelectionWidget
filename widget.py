@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2007 by BlueDynamics Alliance, Austria
 #
-# major parts of this code are derived from ATMemberselectWidget
+# initially this code was derived from ATMemberselectWidget
 #
 # GNU General Public License (GPL)
 #
