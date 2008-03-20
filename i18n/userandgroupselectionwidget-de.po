@@ -19,13 +19,13 @@ msgstr ""
 #. Default: "Browse..."
 #: ../skins/userandgroupselectionwidget/userandgroupselect.pt
 msgid "Browse..."
-msgstr "Durchsuchen..."
+msgstr "Suchen..."
 
 msgid "Remove selected users"
 msgstr "markierte Benutzer entfernen"
 
 msgid "Remove user"
-msgstr "Benutzer entfernen"
+msgstr "entfernen"
 
 #. Default: "Search"
 #: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
