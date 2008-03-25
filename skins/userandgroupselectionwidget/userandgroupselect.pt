@@ -30,7 +30,7 @@
                        tal:define="view context/@@userandgroupselect_view">
        <metal:use use-macro="field_macro | here/widgets/field/macros/edit">
 
-          <div metal:fill-slot="widget_body"
+          <div metal:fill-slot="widget_body" class="userandgroupselect"
                tal:define="multiVal python:test(field.multiValued, 1, 0); 
                            field_required field/required;
                            fieldId fieldId | fieldName;
