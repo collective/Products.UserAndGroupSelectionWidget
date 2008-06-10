@@ -78,6 +78,7 @@
                 <tal:repeat repeat="guid value">
                   <tal:notnone tal:condition="python: guid">
                   <option tal:attributes="value guid"
+                          selected="selected"
                           tal:content="python: view.getUserOrGroupTitle(guid)">
                   </option>
                   </tal:notnone>
