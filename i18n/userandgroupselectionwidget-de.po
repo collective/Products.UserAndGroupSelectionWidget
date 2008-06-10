@@ -32,14 +32,14 @@ msgstr "entfernen"
 msgid "Search"
 msgstr "Suchen"
 
-#. Default: "add selected users"
+#. Default: "add_selected_users"
 #: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
-msgid "add selected users"
+msgid "add_selected_users"
 msgstr "markierte Benutzer hinzufügen"
 
-#. Default: "close window"
+#. Default: "close_window"
 #: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
-msgid "close window"
+msgid "close_window"
 msgstr "Fenster schliessen"
 
 #. Default: "Search"

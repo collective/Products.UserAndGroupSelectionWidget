@@ -222,7 +222,7 @@
       <br />
 
       <input type="button"
-             i18n:attributes="value userandgroupselect_close"
+             i18n:attributes="value close_window"
              value="close window"
              onclick="javascript:window.close()" />
     </div>
