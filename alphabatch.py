@@ -39,7 +39,7 @@ class AlphaBatch(object):
              'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
              JOKER]
              
-    threshold = 20
+    threshold = 30
     
     
     def __init__(self, results, context, request):
