@@ -38,6 +38,11 @@ msgstr ""
 msgid "add selected users"
 msgstr ""
 
+#. Default: "add selected groups"
+#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
+msgid "add_selected_groups"
+msgstr ""
+
 #. Default: "close window"
 #: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
 msgid "close window"

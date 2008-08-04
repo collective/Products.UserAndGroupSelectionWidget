@@ -154,6 +154,7 @@
 
           <input type="button" name="addGroupButton"
                  id="#" value="add selected group(s)"
+                 i18n:attributes="value add_selected_groups"
                  tal:condition="python: not view.usersOnly()"
                  tal:attributes="onclick string:javascript:addSelectedGroups();" />
 

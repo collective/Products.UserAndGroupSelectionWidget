@@ -37,6 +37,11 @@ msgstr "Suchen"
 msgid "add_selected_users"
 msgstr "markierte Benutzer hinzufügen"
 
+#. Default: "add_selected_groups"
+#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
+msgid "add_selected_groups"
+msgstr "markierte Gruppe(n) hinzufügen"
+
 #. Default: "close_window"
 #: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
 msgid "close_window"
