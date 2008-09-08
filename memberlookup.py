@@ -32,10 +32,6 @@ from interfaces import IGenericFilterTranslation
 
 class MemberLookup(object):
     """This object contains the logic to list and search for users and groups.
-    
-    At the moment the user and group lookups are not all implemented the way
-    we want to work. Sometimes there is portal_membership and portal_groups
-    used. These things has to be changed that pure PAS is used.
     """
     
     def __init__(self, context, request, widget):
@@ -63,10 +59,9 @@ class MemberLookup(object):
         """Return the groups.
         """
         filter = self._allocateFilter()
-        
-        # TODO: alter grouptool with pas.
-        grouptool = getToolByName(self.context, 'portal_groups')
-        groups = grouptool.listGroups()
+
+        aclu = getToolByName(self.context, 'acl_users')
+        groups = aclu.getGroups()
         
         ret = []
         for group in groups:
@@ -75,7 +70,7 @@ class MemberLookup(object):
                 continue
             
             ret.append((gid, group.getGroupTitleOrName()))
-        
+
         return ret
         
     def getMembers(self):
@@ -89,33 +84,43 @@ class MemberLookup(object):
         filter = self._allocateFilter()
         group = self.currentgroupid
         st = self.searchabletext
-        
-        # TODO: alter grouptool and membertool with pas.
-        members = []
+
+        aclu = getToolByName(self.context, 'acl_users')
+        users = []
+        user_ids = []
         if group != 'ignore' and group != '':
-            pg = getToolByName(self.context, 'portal_groups')
-            group = pg.getGroupById(group)
+            group = aclu.getGroupById(group)
             if group:
-                members = group.getGroupMembers()
+                user_ids = group.getGroupMemberIds()
         else:
+            # TODO: Search is done over all available groups, not only over groups which should be applied
+            # also see getGroups
             if len(st) < 3:
                 return []
-            pm = getToolByName(self.context, 'portal_membership')
-            members = pm.searchForMembers({'name': st})
-        
+            users_dict = aclu.searchUsers(name=st)
+            user_ids = [user['id'] for user in users_dict]
+            
+        if user_ids:
+            users = [aclu.getUserById(user_id) for user_id in user_ids]
+
         reduce = True
         for fil in filter:
             if fil == '*':
                 reduce == False
         if reduce:
-            members = self._reduceMembers(members, filter)
+            users = self._reduceMembers(users, filter)
         
         ret = []
-        for member in members:
+        for user in users:
+            user_id = user.getId()
+            for psheet in user.getOrderedPropertySheets():
+                if psheet.hasProperty('fullname'):
+                    user_fn = psheet.getProperty('fullname')
+                else:
+                    user_fn = user_id
             entry = {
-                'id': member.getId(),
-                'fullname': (member.getProperty('fullname', None) or \
-                             member.getId()),
+                'id': user_id,
+                'fullname': user_fn,
             }
             ret.append(entry)
         
