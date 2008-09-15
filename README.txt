@@ -24,6 +24,7 @@ Authors:
 
 - Robert Niederreiter <robertn@bluedynamics.com>,
 - Jens Klein <jens@bluedynamics.com>,  
+- Johannes Raggam <johannes@bluedynamics.com>,
 
 Copyright (C) 2007 BlueDynamics Alliance, Klein & Partner KEG, Austria
 
