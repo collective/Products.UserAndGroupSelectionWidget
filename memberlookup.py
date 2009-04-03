@@ -27,9 +27,15 @@ from zope.component import ComponentLookupError
 
 from Products.CMFCore.utils import getToolByName
 from Products.PlonePAS.interfaces.group import IGroupIntrospection
+
+from bda.cache import ICacheManager
+from bda.cache import Memcached
  
 from interfaces import IGenericGroupTranslation
 from interfaces import IGenericFilterTranslation
+
+# make this dynamic, XXX
+CACHEPROVIDER = Memcached(['127.0.0.1:11211'])
 
 class MemberLookup(object):
     """This object contains the logic to list and search for users and groups.
@@ -90,30 +96,42 @@ class MemberLookup(object):
         }
         """
         start = time.time()
-        
         filter = self._allocateFilter()
         group = self.currentgroupid
-        st = self.searchabletext
-        aclu = getToolByName(self.context, 'acl_users')
-        users = []
-        user_ids = []
         if group != 'ignore' and group != '':
-            user_ids = self._getUserIdsOfGroup(group)
+            key = 'userandgroupselectionwidget:%s' % group
+            manager = ICacheManager(CACHEPROVIDER)
+            users = manager.getData(self._readGroupMembers, key, args=[group])
         else:
-            # TODO: Search is done over all available groups, not only over groups which should be applied
-            # also see getGroups
-            if len(st) < 3:
-                return []
-            users_dict = aclu.searchUsers(name=st)
-            user_ids = [user['id'] for user in users_dict]
-        if user_ids:
-            users = [aclu.getUserById(user_id) for user_id in user_ids]
+            users = self._searchUsers()
         reduce = True
         for fil in filter:
             if fil == '*':
                 reduce == False
         if reduce:
             users = self._reduceMembers(users, filter)
+        print 'getMembers took %s' % str(time.time() - start)
+        return users
+    
+    def _readGroupMembers(self, gid):
+        aclu = getToolByName(self.context, 'acl_users')
+        user_ids = self._getUserIdsOfGroup(gid)
+        return self._getUserDefs(user_ids)
+    
+    def _searchUsers(self):
+        st = self.searchabletext
+        # TODO: Search is done over all available groups, not only over groups
+        # which should be applied. also see getGroups.
+        if len(st) < 3:
+            return []
+        aclu = getToolByName(self.context, 'acl_users')
+        users_dict = aclu.searchUsers(name=st)
+        user_ids = [user['id'] for user in users_dict]
+        return self._getUserDefs(user_ids)
+    
+    def _getUserDefs(self, uids):
+        aclu = getToolByName(self.context, 'acl_users')
+        users = [aclu.getUserById(user_id) for user_id in uids]
         ret = []
         for user in users:
             user_id = user.getId()
@@ -127,15 +145,9 @@ class MemberLookup(object):
                 'fullname': user_fn,
             }
             ret.append(entry)
-        
-        
         ret.sort(cmp=lambda x, y: \
             x['fullname'].lower() > y['fullname'].lower() and 1 or -1)
-
-        print 'getMembers took %s' % str(time.time() - start)
-	
         return ret
-        #return self._sortMembers(ret)
     
     def _allocateFilter(self):
         filter = self.widget.groupIdFilter
@@ -185,26 +197,3 @@ class MemberLookup(object):
         """
         # TODO
         return members
-    
-    def _sortMembers(self, members):
-        """Sort members dict alphabetically by fullname.
-        """
-        names = []
-        tmp = {}
-        for member in members:
-            fullname = member['fullname'].lower()
-            inUse = True
-            p = 1
-            while inUse:
-                if fullname in tmp.keys():
-                    fullname = fullname + str(p)
-                    p += 1
-                else:
-                    inUse = False
-            names.append(fullname)
-            tmp[fullname] = member
-        names.sort()
-        ret = []
-        for name in names:
-            ret.append(tmp[name])
-        return ret

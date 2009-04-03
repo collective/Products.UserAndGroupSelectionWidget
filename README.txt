@@ -13,6 +13,12 @@ and is tested with hundreds of groups and thousands of users.
 It is configureable to select only groups, only users, both or only user of a 
 distinct group.
 
+------------
+Dependencies
+------------
+
+* bda.cache
+
 --------------------
 Author and Copyright
 --------------------
@@ -22,7 +28,7 @@ which was the base for idea (and some parts of the code) of this Widget.
 
 Authors: 
 
-- Robert Niederreiter <robertn@bluedynamics.com>,
+- Robert Niederreiter <rnix@squarewave.at>,
 - Jens Klein <jens@bluedynamics.com>,  
 - Johannes Raggam <johannes@bluedynamics.com>,
 
