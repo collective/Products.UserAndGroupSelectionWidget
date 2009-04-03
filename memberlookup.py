@@ -63,8 +63,7 @@ class MemberLookup(object):
     def getGroups(self):
         """Return the groups.
         """
-        start = time.time()
-        
+        #start = time.time()
         filter = self._allocateFilter()
         aclu = getToolByName(self.context, 'acl_users')
         groups = aclu.getGroups()
@@ -74,18 +73,8 @@ class MemberLookup(object):
             if not self._groupIdFilterMatch(gid, filter):
                 continue
             ret.append((gid, group.getGroupTitleOrName()))
-            
-        print 'getGroups took %s' % str(time.time() - start)
-        
+        #print 'getGroups took %s' % str(time.time() - start)
         return ret
-    
-    def _getUserIdsOfGroup(self, groupid):
-        aclu = getToolByName(self.context, 'acl_users')
-        for id, giplugin in aclu.plugins.listPlugins(IGroupIntrospection):
-            userids = giplugin.getGroupMembers(groupid)
-            if userids: 
-                return userids
-        return []
         
     def getMembers(self):
         """Return the Users in the following form.
@@ -95,7 +84,7 @@ class MemberLookup(object):
             'fullname': 'Max Mustermann',
         }
         """
-        start = time.time()
+        #start = time.time()
         filter = self._allocateFilter()
         group = self.currentgroupid
         if group != 'ignore' and group != '':
@@ -110,8 +99,16 @@ class MemberLookup(object):
                 reduce == False
         if reduce:
             users = self._reduceMembers(users, filter)
-        print 'getMembers took %s' % str(time.time() - start)
+        #print 'getMembers took %s' % str(time.time() - start)
         return users
+    
+    def _getUserIdsOfGroup(self, groupid):
+        aclu = getToolByName(self.context, 'acl_users')
+        for id, giplugin in aclu.plugins.listPlugins(IGroupIntrospection):
+            userids = giplugin.getGroupMembers(groupid)
+            if userids: 
+                return userids
+        return []
     
     def _readGroupMembers(self, gid):
         aclu = getToolByName(self.context, 'acl_users')
