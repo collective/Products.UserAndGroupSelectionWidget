@@ -75,7 +75,7 @@ class MemberLookup(object):
     
     def _getUserIdsOfGroup(self, groupid):
         aclu = getToolByName(self.context, 'acl_users')
-        for giplugin in aclu.plugins.listPlugins(IGroupIntrospection):
+        for id, giplugin in aclu.plugins.listPlugins(IGroupIntrospection):
             userids = giplugin.getGroupMembers(groupid)
             if userids: 
                 return userids
@@ -98,7 +98,7 @@ class MemberLookup(object):
         users = []
         user_ids = []
         if group != 'ignore' and group != '':
-            user_ids = _getUserIdsOfGroup(group)
+            user_ids = self._getUserIdsOfGroup(group)
         else:
             # TODO: Search is done over all available groups, not only over groups which should be applied
             # also see getGroups
@@ -128,9 +128,14 @@ class MemberLookup(object):
             }
             ret.append(entry)
         
-        print 'getMembers took %s' % str(time.time() - start)
         
-        return self._sortMembers(ret)
+        ret.sort(cmp=lambda x, y: \
+            x['fullname'].lower() > y['fullname'].lower() and 1 or -1)
+
+        print 'getMembers took %s' % str(time.time() - start)
+	
+        return ret
+        #return self._sortMembers(ret)
     
     def _allocateFilter(self):
         filter = self.widget.groupIdFilter
