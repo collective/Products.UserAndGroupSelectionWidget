@@ -23,10 +23,10 @@ __docformat__ = 'plaintext'
 
 import time
 import types
-
 from zope.component import ComponentLookupError
 
 from Products.CMFCore.utils import getToolByName
+from Products.PlonePAS.interfaces.group import IGroupIntrospection
  
 from interfaces import IGenericGroupTranslation
 from interfaces import IGenericFilterTranslation
@@ -72,6 +72,14 @@ class MemberLookup(object):
         print 'getGroups took %s' % str(time.time() - start)
         
         return ret
+    
+    def _getUserIdsOfGroup(self, groupid):
+        aclu = getToolByName(self.context, 'acl_users')
+        for giplugin in aclu.plugins.listPlugins(IGroupIntrospection):
+            userids = giplugin.getGroupMembers(groupid)
+            if userids: 
+                return userids
+        return []
         
     def getMembers(self):
         """Return the Users in the following form.
@@ -90,9 +98,7 @@ class MemberLookup(object):
         users = []
         user_ids = []
         if group != 'ignore' and group != '':
-            group = aclu.getGroupById(group)
-            if group:
-                user_ids = group.getGroupMemberIds()
+            user_ids = _getUserIdsOfGroup(group)
         else:
             # TODO: Search is done over all available groups, not only over groups which should be applied
             # also see getGroups
