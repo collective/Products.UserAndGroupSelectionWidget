@@ -21,6 +21,7 @@
 __author__ = """Robert Niederreiter <robertn@bluedynamics.com>"""
 __docformat__ = 'plaintext'
 
+import time
 import types
 
 from zope.component import ComponentLookupError
@@ -39,10 +40,8 @@ class MemberLookup(object):
         """
         self.context = context
         self.widget = widget
-        
         self.searchabletext = request.get('searchabletext', '')
         group = request.get('selectgroup', '')
-        
         try:
             grouptranslation = IGenericGroupTranslation(self.context)
             self.currentgroupid = grouptranslation.translateToRealGroupId(group)
@@ -58,19 +57,20 @@ class MemberLookup(object):
     def getGroups(self):
         """Return the groups.
         """
+        start = time.time()
+        
         filter = self._allocateFilter()
-
         aclu = getToolByName(self.context, 'acl_users')
         groups = aclu.getGroups()
-        
         ret = []
         for group in groups:
             gid = group.getId()
             if not self._groupIdFilterMatch(gid, filter):
                 continue
-            
             ret.append((gid, group.getGroupTitleOrName()))
-
+            
+        print 'getGroups took %s' % str(time.time() - start)
+        
         return ret
         
     def getMembers(self):
@@ -81,10 +81,11 @@ class MemberLookup(object):
             'fullname': 'Max Mustermann',
         }
         """
+        start = time.time()
+        
         filter = self._allocateFilter()
         group = self.currentgroupid
         st = self.searchabletext
-
         aclu = getToolByName(self.context, 'acl_users')
         users = []
         user_ids = []
@@ -99,17 +100,14 @@ class MemberLookup(object):
                 return []
             users_dict = aclu.searchUsers(name=st)
             user_ids = [user['id'] for user in users_dict]
-            
         if user_ids:
             users = [aclu.getUserById(user_id) for user_id in user_ids]
-
         reduce = True
         for fil in filter:
             if fil == '*':
                 reduce == False
         if reduce:
             users = self._reduceMembers(users, filter)
-        
         ret = []
         for user in users:
             user_id = user.getId()
@@ -123,6 +121,8 @@ class MemberLookup(object):
                 'fullname': user_fn,
             }
             ret.append(entry)
+        
+        print 'getMembers took %s' % str(time.time() - start)
         
         return self._sortMembers(ret)
     
@@ -138,44 +138,35 @@ class MemberLookup(object):
                 pass
             else:
                 raise        
-        
         if type(filter) in types.StringTypes:
             filter = [filter,]
-        
         return filter
 
     def _groupIdFilterMatch(self, gid, filter):
         """Check if gid matches filter.
         """
         for fil in filter:
-            
             # wildcard match
             if fil.find('*') != -1:
-                
                 # all groups are affected
                 if fil == '*':
                     return True
-            
                 # wildcard matches like '*foo'
                 elif fil.startswith('*'):
                     if gid.endswith(fil[1:]):
                         return True
-                
                 # wildcard matches like 'foo*'
                 elif fil.endswith('*'):
                     if gid.startswith(fil[:-1]):
                         return True
-                
                 # wildacard matches like '*foo*'
                 else:
                     if gid.find(fil[1:-1]) != -1:
                         return True
-            
             # exact match
             else:
                 if fil == gid:
                     return True
-        
         return False
     
     def _reduceMembers(self, members, filter):
@@ -189,26 +180,20 @@ class MemberLookup(object):
         """
         names = []
         tmp = {}
-        
         for member in members:
             fullname = member['fullname'].lower()
             inUse = True
             p = 1
-            
             while inUse:
                 if fullname in tmp.keys():
                     fullname = fullname + str(p)
                     p += 1
                 else:
                     inUse = False
-            
             names.append(fullname)
             tmp[fullname] = member
-        
         names.sort()
         ret = []
-        
         for name in names:
             ret.append(tmp[name])
-        
         return ret
