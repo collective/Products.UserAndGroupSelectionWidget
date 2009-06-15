@@ -135,6 +135,9 @@ class MemberLookup(object):
             for psheet in user.getOrderedPropertySheets():
                 if psheet.hasProperty('fullname'):
                     user_fn = psheet.getProperty('fullname')
+                    if user_fn:
+                        # do not search other sheets
+                        break
                 else:
                     user_fn = user_id
             entry = {

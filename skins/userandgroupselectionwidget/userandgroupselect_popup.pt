@@ -10,24 +10,20 @@
                   fieldId request/fieldId;
                   groupId request/selectgroup | python: '';">
 
-  <head metal:use-macro="here/header/macros/html_header">
+  <head>
 
-    <metal:fillbase fill-slot="base">
-        <base href="" tal:attributes="href here/renderBase" />
-    </metal:fillbase>
+    <base href="" tal:attributes="href here/renderBase" />
 
-    <metal:headslot fill-slot="head_slot"
-                    tal:define="language here/Language;
-                                lang language | default_language;
-                                charset site_properties/default_charset|string:utf-8">
+    <tal:define define="language here/Language;
+                        lang language | default_language;
+                        charset site_properties/default_charset|string:utf-8">
 
       <metal:cache use-macro="here/global_cache_settings/macros/cacheheaders">
         Get the global cache headers located in global_cache_settings.
       </metal:cache>
 
-    </metal:headslot>
-
-    <metal:javascriptslot fill-slot="javascript_head_slot">
+    </tal:define>
+    
     <script language="javascript" tal:content="structure string:
         function addSelectedUsers(e) {
             if (e){
@@ -74,8 +70,7 @@
 
          ">
     </script>
-    </metal:javascriptslot>
-
+    
 </head>
 
 <body id="userandgroupselect-popup-body">

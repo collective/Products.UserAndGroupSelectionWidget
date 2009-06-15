@@ -25,7 +25,7 @@ __docformat__ = 'plaintext'
 import Globals
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.utils import OrderedDict
-
+from Products.CMFPlone.utils import safe_unicode
 
 class AlphaBatch(object):
     """Object used to batch results alphabetically.
@@ -65,7 +65,7 @@ class AlphaBatch(object):
         pointer = 0
         hasResults = len(self.results)
         nonresults = []
-        
+
         for term in self.vocab:
             
             # full init for term
@@ -77,13 +77,13 @@ class AlphaBatch(object):
             # special handling for joker
             if term == self.JOKER:
                 continue
-            
+
             # assume alpha sorted results here
             for result in self.results[pointer:]:                
-                title = result['fullname'].upper()
-                title.replace(u'ü',u'Ü')
-                title.replace(u'ö',u'Ö')
-                title.replace(u'ä',u'Ä')
+                title = safe_unicode(result['fullname']).upper()
+                # title.replace(u'ü',u'Ü')
+                # title.replace(u'ö',u'Ö')
+                # title.replace(u'ä',u'Ä')
                 
                 currentTerm = title and title[0] or None
                 if currentTerm is None or currentTerm not in self.vocab:
