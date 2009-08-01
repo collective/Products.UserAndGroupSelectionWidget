@@ -131,6 +131,8 @@ class MemberLookup(object):
         users = [aclu.getUserById(user_id) for user_id in uids]
         ret = []
         for user in users:
+            if user is None:
+                continue
             user_id = user.getId()
             for psheet in user.getOrderedPropertySheets():
                 if psheet.hasProperty('fullname'):
