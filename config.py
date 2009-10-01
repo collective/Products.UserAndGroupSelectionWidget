@@ -1,2 +1,0 @@
-PROJECTNAME = "UserAndGroupSelectionWidget"
-GLOBALS = globals() 
