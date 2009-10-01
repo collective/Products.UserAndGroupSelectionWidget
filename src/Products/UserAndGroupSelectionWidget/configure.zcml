@@ -1,8 +1,18 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
            xmlns:five="http://namespaces.zope.org/five">
            
     <include package="bda.cache" />
+    <include package="Products.GenericSetup" file="meta.zcml" />
+    
+    <genericsetup:registerProfile
+        name="default"
+	    title="UserAndGroupSelectionWidget"
+	    directory="profile"
+	    description="Extension profile for UserAndGroupSelectionWidget"
+	    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
 
     <browser:page
         for="*"
