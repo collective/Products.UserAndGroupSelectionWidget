@@ -35,7 +35,7 @@ setup(name='Products.UserAndGroupSelectionWidget',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'Products.Archetypes',
+          #'Products.Archetypes', # keep commented until we skip Plone 2.5 support
           'bda.cache',
           # Zope 2 dependencies are missing
       ],      
