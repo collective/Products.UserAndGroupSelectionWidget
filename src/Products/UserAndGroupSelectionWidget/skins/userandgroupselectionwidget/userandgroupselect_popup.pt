@@ -68,6 +68,14 @@
             }
         }
 
+	
+		function toggleUidsSelect(field) {
+            checkboxes = document.getElementsByName('uids');			
+            for (i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = field.checked;
+	        }
+        }
+
          ">
     </script>
     
@@ -183,8 +191,7 @@
                          src="select_all_icon.gif"
                          name="selectButton"
                          title="Select all items"
-                         checked="checked"
-                         onClick="toggleSelect(this, 'uids', true);"
+                         onClick="toggleUidsSelect(this);"
                          tal:condition="multiVal"
                          tal:attributes="src string:$portal_url/select_all_icon.gif"/>
                 </th>
