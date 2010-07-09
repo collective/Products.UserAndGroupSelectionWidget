@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*
+
 import Globals
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.utils import OrderedDict

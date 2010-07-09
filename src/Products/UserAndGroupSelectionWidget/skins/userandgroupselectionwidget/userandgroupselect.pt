@@ -95,7 +95,7 @@
                    i18n:attributes="value"
                    tal:define="groupId groupId | string:'';
                                enableSearch enableSearch | python:1"
-                   tal:attributes="onClick string:javascript:userandgroupselect_openBrowser('${here_url}', '${fieldId}', '${groupId}')"
+                   tal:attributes="onClick string:javascript:userandgroupselect_openBrowser('${context/absolute_url}', '${fieldId}', '${groupId}')"
                    />
               <input type="button"
                    class="destructive"

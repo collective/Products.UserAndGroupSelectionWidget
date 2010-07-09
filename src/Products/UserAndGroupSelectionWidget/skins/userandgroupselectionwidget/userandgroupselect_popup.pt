@@ -106,13 +106,13 @@
                  onBlur="setDefaultField(this)"
                  i18n:attributes="title title_search_site;"
                  tal:attributes="style python:test(request.get('searchabletext'), 'background-image: none !important', nothing);
-                                 tabindex tabindex/next" />
+                                 tabindex tabindex/next|nothing" />
         
           <input class="searchButton" 
                  type="submit"
                  tabindex=""
                  value="Search"
-                 tal:attributes="tabindex tabindex/next"
+                 tal:attributes="tabindex tabindex/next|nothing"
                  i18n:attributes="value label_search;"/>   
 
         </div>
