@@ -73,7 +73,7 @@
                        tal:attributes="name string:${fieldName}:list;
                                        id string:$fieldId;
                                        size size | python: 8;
-                                       tabindex tabindex/next;">
+                                       tabindex tabindex/next|nothing;">
 
                 <tal:repeat repeat="guid value">
                   <tal:notnone tal:condition="python: guid">
