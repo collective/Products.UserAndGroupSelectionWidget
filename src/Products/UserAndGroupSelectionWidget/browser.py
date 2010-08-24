@@ -89,7 +89,7 @@ class UserAndGroupSelectPopupView(BrowserView):
     def getGroupsForPulldown(self):
         ret = [('ignore', '-')]
         groups = self.memberlookup.getGroups()
-        return ret + sorted(groups, operator.itemgetter(1))
+        return ret + sorted(groups, key=operator.itemgetter(1))
     
     def getBatch(self):
         members = self.memberlookup.getMembers()
