@@ -32,7 +32,17 @@ Authors:
 - Jens Klein <jens@bluedynamics.com>,  
 - Johannes Raggam <johannes@bluedynamics.com>,
 
-Copyright (C) 2007 BlueDynamics Alliance, Klein & Partner KEG, Austria
+Copyright (C) 2007-2010 BlueDynamics Alliance, Klein & Partner KG, Austria
 
 This code was made for BKS Chur Project: 
 Communication-Platform/Intranet/e-learning.
+
+-------
+Changes
+-------
+
+2.0.2
+-----
+
+- sort list of groups in popup by group title (jensens, 2010-08-24)
+

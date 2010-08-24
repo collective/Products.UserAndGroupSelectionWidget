@@ -75,8 +75,7 @@ class MemberLookup(object):
             if fil == '*':
                 reduce == False
         if reduce:
-            users = self._reduceMembers(users, filter)
-        #print 'getMembers took %s' % str(time.time() - start)
+            users = self._reduceMembers(users, filter)        
         return users
     
     def _getUserIdsOfGroup(self, groupid):

@@ -1,4 +1,5 @@
 import types
+import operator
 from zope.interface import implements
 from Products.Five import BrowserView
 from Products.PlonePAS.interfaces.group import IGroupIntrospection
@@ -87,7 +88,8 @@ class UserAndGroupSelectPopupView(BrowserView):
     
     def getGroupsForPulldown(self):
         ret = [('ignore', '-')]
-        return ret + self.memberlookup.getGroups()
+        groups = self.memberlookup.getGroups()
+        return ret + sorted(groups, operator.itemgetter(1))
     
     def getBatch(self):
         members = self.memberlookup.getMembers()
