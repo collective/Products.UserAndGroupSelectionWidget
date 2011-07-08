@@ -41,7 +41,7 @@ Communication-Platform/Intranet/e-learning.
 Changes
 -------
 
-2.0.3 (unreleased)
+2.0.3 (2011-07-08)
 ------------------
 * Plone 4 compatibility fixes (ajung)
 
