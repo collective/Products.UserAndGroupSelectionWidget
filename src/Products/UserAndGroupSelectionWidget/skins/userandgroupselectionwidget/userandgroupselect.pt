@@ -11,14 +11,14 @@
                                    multiVal field/multiValued;">
 
        <tal:single tal:condition="not:multiVal">
-         <div tal:content="python: view.getUserOrGroupTitle(value)">
+         <div class="usergroupselect-value" tal:content="python: view.getUserOrGroupTitle(value)">
            UserOrGroupTitle
          </div>
        </tal:single>
 
        <tal:multival tal:condition="multiVal">
            <tal:users tal:repeat="userid value">  
-             <div tal:content="python: view.getUserOrGroupTitle(userid)">
+             <div class="usergroupselect-value" tal:content="python: view.getUserOrGroupTitle(userid)">
                UserOrGroupTitle
              </div>
            </tal:users> 
