@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '2.0.2'
+version = '2.0.3'
 shortdesc = "Archetypes Widget for User and Group Selection, works with many users."
 longdesc = open(os.path.join(os.path.dirname(__file__), 'README.txt')).read()
 license = open(os.path.join(os.path.dirname(__file__), 'LICENSE.txt')).read()
