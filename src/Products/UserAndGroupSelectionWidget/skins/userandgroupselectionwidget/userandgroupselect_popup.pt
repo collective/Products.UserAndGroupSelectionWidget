@@ -193,7 +193,7 @@
                          title="Select all items"
                          onClick="toggleUidsSelect(this);"
                          tal:condition="multiVal"
-                         tal:attributes="src string:$portal_url/select_all_icon.gif"/>
+                         tal:attributes="src string:${context/portal_url}/select_all_icon.gif"/>
                 </th>
                 <th i18n:translate="listingheader_name">Name</th>
             </thead>
