@@ -41,6 +41,10 @@ Communication-Platform/Intranet/e-learning.
 Changes
 -------
 
+2.0.5 (Unreleased)
+------------------
+* Fixed to be compatible with schema-extended fields (jcbrand)
+
 2.0.4 (2011-07-08)
 ------------------
 * Plone 4 compatibility fixes (ajung)

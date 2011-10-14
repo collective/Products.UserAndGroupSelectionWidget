@@ -57,7 +57,7 @@ class UserAndGroupSelectPopupView(BrowserView):
         field = self.context
         fieldIds = fieldId.split('-')
         for fieldId in fieldIds:
-            field = field.schema.get(fieldId)
+            field = field.Schema().getField(fieldId)
         
         self.multivalued = field.multiValued
         self.widget = field.widget
