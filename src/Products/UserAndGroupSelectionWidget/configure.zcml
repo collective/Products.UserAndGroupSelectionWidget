@@ -6,13 +6,13 @@
            
     <include package="bda.cache" />
     <include package="Products.GenericSetup" file="meta.zcml" />
-    
+
     <genericsetup:registerProfile
         name="default"
-	    title="UserAndGroupSelectionWidget"
-	    directory="profile"
-	    description="Extension profile for UserAndGroupSelectionWidget"
-	    provides="Products.GenericSetup.interfaces.EXTENSION"
+        title="UserAndGroupSelectionWidget"
+        directory="profile"
+        description="Extension profile for UserAndGroupSelectionWidget"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
     <browser:page
@@ -32,4 +32,3 @@
     />
 
 </configure>
- 
