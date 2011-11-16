@@ -6,7 +6,7 @@ import sys, os
 
 version = '2.0.5dev'
 shortdesc = "Archetypes Widget for User and Group Selection, works with many users."
-longdesc = open(os.path.join(os.path.dirname(__file__), 'README.txt')).read()
+longdesc = open(os.path.join(os.path.dirname(__file__), 'README.rst')).read()
 license = open(os.path.join(os.path.dirname(__file__), 'LICENSE.txt')).read()
 
 setup(name='Products.UserAndGroupSelectionWidget',
