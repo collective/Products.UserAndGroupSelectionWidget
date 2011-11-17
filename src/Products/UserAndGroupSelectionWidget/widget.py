@@ -19,6 +19,8 @@ class UserAndGroupSelectionWidget(TypesWidget):
         'usersOnly'             : False, # only allow user selection
         'groupsOnly'            : False, # allow only group selection
         'groupIdFilter'         : '*',   # allow all groups
+        'searchableProperties'  : (),    # which properties you want to search as well
+                                         # eg. ('email', 'fullname', 'location')
         })
 
     security = ClassSecurityInfo()

@@ -38,6 +38,7 @@ setup(name='Products.UserAndGroupSelectionWidget',
           #'Products.Archetypes', # keep commented until we skip Plone 2.5 support
           'bda.cache',
           # Zope 2 dependencies are missing
-      ],      
+      ],
+      extras_require = {'test': ['plone.app.testing']},
 )
 

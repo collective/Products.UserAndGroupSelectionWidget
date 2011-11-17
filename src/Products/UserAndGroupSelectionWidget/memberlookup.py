@@ -92,14 +92,31 @@ class MemberLookup(object):
         return self._getUserDefs(user_ids)
     
     def _searchUsers(self):
-        st = self.searchabletext
         # TODO: Search is done over all available groups, not only over groups
         # which should be applied. also see getGroups.
-        if len(st) < 3:
+
+        # search terms of less then 3 chars return empty list
+        if len(self.searchabletext) < 3:
             return []
-        aclu = getToolByName(self.context, 'acl_users')
-        users_dict = aclu.searchUsers(name=st)
-        user_ids = [user['id'] for user in users_dict]
+
+        # search for usernames
+        acl_users = getToolByName(self.context, 'acl_users')
+        user_ids = [user['id'] for user in acl_users.searchUsers(
+            name=self.searchabletext)]
+
+        # search for properties
+        if self.widget.searchableProperties:
+            membership = getToolByName(self.context, 'portal_membership')
+            memberdata = getToolByName(self.context, 'portal_memberdata')
+            for user_id in memberdata._members.keys():
+                user = membership.getMemberById(user_id)
+                if user is not None:
+                    for member_property in self.widget.searchableProperties:
+                        searched = user.getProperty(member_property, None)
+                        if searched is not None and \
+                           searched.lower().find(self.searchabletext) != -1:
+                            user_ids.append(user.getId())
+
         return self._getUserDefs(user_ids)
     
     def _getUserDefs(self, uids):

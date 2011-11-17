@@ -37,20 +37,24 @@ Copyright (C) 2007-2010 BlueDynamics Alliance, Klein & Partner KG, Austria
 This code was made for BKS Chur Project: 
 Communication-Platform/Intranet/e-learning.
 
+
 -------
 Changes
 -------
 
 2.0.5 (Unreleased)
 ------------------
+
 * Fixed to be compatible with schema-extended fields (jcbrand)
+* Added possibility to search over user properites (garbas)
 
 2.0.4 (2011-07-08)
 ------------------
+
 * Plone 4 compatibility fixes (ajung)
 
 2.0.2
 -----
 
-- sort list of groups in popup by group title (jensens, 2010-08-24)
+* sort list of groups in popup by group title (jensens, 2010-08-24)
 
