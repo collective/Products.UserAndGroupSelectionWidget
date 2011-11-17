@@ -7,6 +7,7 @@ from Products.Archetypes.Registry import registerWidget
 from Products.Archetypes.utils import shasattr
 from interfaces import IGenericGroupTranslation
 
+
 class UserAndGroupSelectionWidget(TypesWidget):
     _properties = TypesWidget._properties.copy()
     _properties.update({
@@ -20,7 +21,7 @@ class UserAndGroupSelectionWidget(TypesWidget):
         'groupIdFilter'         : '*',   # allow all groups
         })
 
-    security = ClassSecurityInfo()    
+    security = ClassSecurityInfo()
 
     security.declarePublic('process_form')
     def process_form(self, instance, field, form, empty_marker=None, 
@@ -31,14 +32,14 @@ class UserAndGroupSelectionWidget(TypesWidget):
         if result is empty_marker:
             return result
         value, kwargs = result
-        
+
         # The widget always returns a empty item (strange) when we use the 
         # multival option.
         # Remove the empty items manually
         if type(value) is types.ListType:
             value = [item for item in value if item]
         return value, kwargs
-    
+
     security.declarePublic('getGroupId')
     def getGroupId(self, instance):
         groupid = self.groupName
@@ -50,15 +51,15 @@ class UserAndGroupSelectionWidget(TypesWidget):
             if e[0] == 'Could not adapt':
                 pass
             else:
-                raise        
+                raise
         else:
             groupid = translator.translateToRealGroupId(self.groupName)
         return groupid
-            
+
 
 registerWidget(
     UserAndGroupSelectionWidget,
     title='User and Group Selection Widget',
     description=('You can select users searched from a popup window.'),
     used_for=('Products.Archetypes.Field.LinesField',
-	          'Products.Archetypes.Field.StringField', ))
+              'Products.Archetypes.Field.StringField', ))
