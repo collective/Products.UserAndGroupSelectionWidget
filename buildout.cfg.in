@@ -1,0 +1,5 @@
+[buildout]
+extends =
+#    plone40.cfg
+    plone41.cfg
+#    plone42.cfg
