@@ -72,4 +72,5 @@ class IUserAndGroupSelectPopupView(Interface):
     def multiValued():
         """Return wether field is multivalued or not.
         """
-    
+
+

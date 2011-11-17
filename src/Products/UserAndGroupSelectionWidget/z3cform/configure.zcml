@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="userandgroupselectionwidget">
+
+    <z3c:widgetTemplate
+        mode="display"
+        widget=".interfaces.IUserAndGroupSelectionWidget"
+        layer="z3c.form.interfaces.IFormLayer"
+        template="widget_display.pt" />
+    <z3c:widgetTemplate
+        mode="input"
+        widget=".interfaces.IUserAndGroupSelectionWidget"
+        layer="z3c.form.interfaces.IFormLayer"
+        template="widget_input.pt" />
+    <z3c:widgetTemplate
+        mode="hidden"
+        widget=".interfaces.IUserAndGroupSelectionWidget"
+        layer="z3c.form.interfaces.IFormLayer"
+        template="widget_hidden.pt" />
+
+</configure>

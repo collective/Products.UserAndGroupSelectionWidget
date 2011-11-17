@@ -27,7 +27,7 @@
 
     <!-- XXX: nothing really to load right now
     <include zcml:provides="installed Products.Archetypes" package=".at" /-->
-    <!--include zcml:provides="installed z3c.form" package=".z3cform" /-->
+    <include zcml:provides="installed z3c.form" package=".z3cform" />
 
     <genericsetup:registerProfile
         name="default"
