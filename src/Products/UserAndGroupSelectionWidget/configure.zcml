@@ -36,4 +36,7 @@
         description="Extension profile for UserAndGroupSelectionWidget"
         provides="Products.GenericSetup.interfaces.EXTENSION" />
 
+    <!-- testing -->
+    <adapter factory=".at.tests.content.PageExtender" />
+
 </configure>

@@ -1,6 +1,11 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="userandgroupselectionwidget">
+
+    <include package="z3c.form" file="meta.zcml" />
 
     <z3c:widgetTemplate
         mode="display"
@@ -17,5 +22,12 @@
         widget=".interfaces.IUserAndGroupSelectionWidget"
         layer="z3c.form.interfaces.IFormLayer"
         template="widget_hidden.pt" />
+
+    <browser:page
+        for="*"
+        name="test_z3cform"
+        class=".tests.form.TestForm"
+        permission="zope2.View"
+        />
 
 </configure>

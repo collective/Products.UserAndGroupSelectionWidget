@@ -52,6 +52,9 @@ setup(
         'bda.cache',
         ] + extra_install_requires,
     extras_require = {
-        'test': ['unittest2', 'plone.app.testing'],
+        'test': [
+            'unittest2',
+            'plone.app.testing',
+            ],
         },
     )
