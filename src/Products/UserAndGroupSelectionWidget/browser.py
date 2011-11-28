@@ -50,7 +50,7 @@ class UserAndGroupSelectPopupView(BrowserView):
     def initialize(self):
         """Initialize the view class.
         """
-        schema = self.context.Schema()
+
         fieldId = self.request['fieldId']
         
         # compoundfield and arrayfield compatibility
