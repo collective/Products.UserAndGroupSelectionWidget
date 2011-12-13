@@ -6,7 +6,7 @@
                  groupId groupId | string:'';"
                  >
 
-    <script src="userandgroupselect.js"></script>>
+    <script src="userandgroupselect.js"></script>
 
     <tal:single condition="not: multiVal">
         <input size="30" type="text" value="" readonly="readonly"
