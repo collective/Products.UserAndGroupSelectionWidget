@@ -33,6 +33,7 @@ class UserAndGroupSelectionWidget(z3c.form.browser.widget.HTMLTextInputWidget,
             groupid = translator.translateToRealGroupId(self.groupName)
         return groupid
 
+
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
 @zope.component.adapter(zope.schema.interfaces.IField,
                         z3c.form.interfaces.IFormLayer)
@@ -41,5 +42,3 @@ def UserAndGroupSelectionFieldWidget(field, request):
     """
     return z3c.form.widget.FieldWidget(field,
                 UserAndGroupSelectionWidget(request))
-
-

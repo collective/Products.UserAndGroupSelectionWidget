@@ -76,7 +76,7 @@ class UserAndGroupSelectPopupView(BrowserView):
         query = self._getQueryString(**kwargs)
         url = '%s?%s' % (baseUrl, query)
         return url
-    
+
     def isSelected(self, param, value):
         param = self.request.get(param)
         if param:
@@ -85,31 +85,31 @@ class UserAndGroupSelectPopupView(BrowserView):
             if value in param:
                 return True
         return False
-    
+
     def getGroupsForPulldown(self):
         ret = [('ignore', '-')]
         groups = self.memberlookup.getGroups()
         return ret + sorted(groups, key=operator.itemgetter(1))
-    
+
     def getBatch(self):
         members = self.memberlookup.getMembers()
         return AlphaBatch(members, self.context, self.request)
-    
+
     def usersOnly(self):
         return self.widget.usersOnly
-    
+
     def groupsOnly(self):
         return self.widget.groupsOnly
-    
+
     def multiValued(self):
         if self.multivalued:
             return 1
         return 0
-    
+
     def _getQueryString(self, **kwargs):
         params = dict()
         for key in self.request.form.keys():
             params[key] = self.request.form[key]
         params.update(kwargs)
-        query = make_query(params) 
+        query = make_query(params)
         return query
