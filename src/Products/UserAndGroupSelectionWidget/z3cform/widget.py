@@ -15,8 +15,15 @@ class UserAndGroupSelectionWidget(z3c.form.browser.widget.HTMLTextInputWidget,
 
     zope.interface.implementsOnly(IUserAndGroupSelectionWidget)
 
-    size = 8
-    groupName = ''
+    macro = "userandgroupselect"
+    helper_js = ('userandgroupselect.js',)
+    size = 8        # size of form-element taking the users
+    groupName = ''  # takes the given group as default, a group id
+    usersOnly = False     # only allow user selection
+    groupsOnly = False    # allow only group selection
+    groupIdFilter = '*'   # allow all groups
+    searchableProperties = ()    # which properties you want to search as well
+                                         # eg. ('email', 'fullname', 'location')
 
     def getGroupId(self, instance):
         groupid = self.groupName
