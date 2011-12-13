@@ -4,7 +4,7 @@ import zope.interface
 import z3c.form
 
 from Products.UserAndGroupSelectionWidget.z3cform import widget
-from Products.UserAndGroupSelectionWidget.z3cform import widget
+
 
 class ITestForm(zope.interface.Interface):
 
