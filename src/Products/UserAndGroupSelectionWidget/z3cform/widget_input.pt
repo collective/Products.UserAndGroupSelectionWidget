@@ -1,0 +1,59 @@
+<div class="userandgroupselect"
+     tal:define="value view/value;
+                 help context/@@userandgroupselect_view;
+                 multiVal python:type(value) in [list, tuple, set];
+                 groupId python: view.getGroupId(context);
+                 groupId groupId | string:'';"
+                 >
+
+    <script src="userandgroupselect.js"></script>
+
+    <tal:single condition="not: multiVal">
+        <input size="30" type="text" value="" readonly="readonly"
+               tal:attributes="value python: help.getUserOrGroupTitle(value);
+                               id string:${view/id}_label"
+               />
+        <input type="hidden" value="" name=""
+               tal:attributes="name view/name; id view/id; value value;"
+                />
+    </tal:single>
+
+    <tal:multi tal:condition="multiVal">
+
+        <select multiple="multiple"
+                tal:attributes="name string:${view/name}:list;
+                                id view/id;
+                                size view/size;">
+
+            <tal:repeat repeat="item value">
+                <tal:notnone tal:condition="item">
+                    <option selected="selected"
+                            tal:attributes="value item"
+                            tal:content="python: help.getUserOrGroupTitle(item)"
+                            />
+                </tal:notnone>
+            </tal:repeat>
+
+        </select>
+
+    </tal:multi>
+
+    <div>
+        <input type="button"
+               class="searchButton"
+               value="Browse..."
+               onClick=""
+               tal:attributes="onClick string:javascript:userandgroupselect_openBrowser('${context/absolute_url}', '${view/id}', '${groupId}')"
+               i18n:attributes="value"
+               />
+        <input type="button"
+               class="destructive"
+               value="Remove selected users"
+               onClick=""
+               tal:attributes="onClick string:javascript:userandgroupselect_removeEntry('${view/id}', ${multiVal});
+                               value python:multiVal and 'Remove selected users' or 'Remove user'"
+               i18n:attributes="value"
+               />
+    </div>
+
+</div>

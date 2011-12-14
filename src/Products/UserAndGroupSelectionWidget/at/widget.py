@@ -1,11 +1,14 @@
 import types
+
 from zope.component import ComponentLookupError
+
 from Globals import InitializeClass
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.Widget import TypesWidget
 from Products.Archetypes.Registry import registerWidget
 from Products.Archetypes.utils import shasattr
-from interfaces import IGenericGroupTranslation
+
+from Products.UserAndGroupSelectionWidget.interfaces import IGenericGroupTranslation
 
 
 class UserAndGroupSelectionWidget(TypesWidget):

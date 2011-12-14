@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*
 
 import Globals
+import ordereddict
 from AccessControl import ClassSecurityInfo
-from Products.Archetypes.utils import OrderedDict
 from Products.CMFPlone.utils import safe_unicode
+
 
 class AlphaBatch(object):
     """Object used to batch results alphabetically.
@@ -26,7 +27,7 @@ class AlphaBatch(object):
         self.context = context
         self.results = results
         self.currentresults = []
-        self.pagemap = OrderedDict()
+        self.pagemap = ordereddict.OrderedDict()
         self.request = request
         self.showBatch = True
                 
