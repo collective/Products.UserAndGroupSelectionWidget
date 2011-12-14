@@ -1,4 +1,3 @@
-
 import z3c.form
 import zope.schema
 import zope.interface
@@ -12,7 +11,6 @@ class UserAndGroupSelectionWidget(z3c.form.browser.widget.HTMLTextInputWidget,
                                   z3c.form.widget.Widget):
     """ User and Groups selection widget for z3c.form
     """
-
     zope.interface.implementsOnly(IUserAndGroupSelectionWidget)
 
     macro = "userandgroupselect"
@@ -24,6 +22,16 @@ class UserAndGroupSelectionWidget(z3c.form.browser.widget.HTMLTextInputWidget,
     groupIdFilter = '*'   # allow all groups
     searchableProperties = ()    # which properties you want to search as well
                                          # eg. ('email', 'fullname', 'location')
+
+    def __init__(self, field, request):
+        if hasattr(request.get('PUBLISHED'), 'form_instance'):
+            # This feels very fragile, but I don't know how else to do this
+            z3cform = request['PUBLISHED'].form_instance
+            self.portal_type = z3cform.portal_type
+        else:
+            self.portal_type = None
+
+        super(UserAndGroupSelectionWidget, self).__init__(request)
 
     def getGroupId(self, instance):
         groupid = self.groupName
@@ -48,4 +56,5 @@ def UserAndGroupSelectionFieldWidget(field, request):
     """IFieldWidget factory for UserAndGroupSelectionWidget
     """
     return z3c.form.widget.FieldWidget(field,
-                UserAndGroupSelectionWidget(request))
+        UserAndGroupSelectionWidget(field, request))
+

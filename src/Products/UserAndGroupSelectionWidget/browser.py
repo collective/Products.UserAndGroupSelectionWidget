@@ -1,17 +1,29 @@
 import types
 import operator
 
+from alphabatch import AlphaBatch
+
+from Acquisition import aq_inner
+from ZTUtils import make_query
+
+from zope.interface import implements
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.schema.interfaces import IField
+from plone.dexterity.interfaces import IDexterityFTI
+from zope.schema.interfaces import ICollection
+
+from z3c.form.widget import FieldWidget
+from z3cform.widget import UserAndGroupSelectionWidget
+from z3c.form.interfaces import IFieldWidget
+
+from Products.Archetypes.utils import shasattr
+from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.PlonePAS.interfaces.group import IGroupIntrospection
-from Products.CMFCore.utils import getToolByName
-from ZTUtils import make_query
-from z3c.form.widget import FieldWidget
-from zope.interface import implements
 
 from interfaces import IUserAndGroupSelectView
 from memberlookup import MemberLookup
-from alphabatch import AlphaBatch
-from z3cform.widget import UserAndGroupSelectionWidget
 
 
 class UserAndGroupSelectView(BrowserView):
@@ -53,28 +65,25 @@ class UserAndGroupSelectPopupView(BrowserView):
 
     def initialize(self):
         """Initialize the view class."""
-        fieldId = self.request['fieldId']
-        fieldIds = fieldId.split('-')
-        field = self.context
+        fieldId = self.request.get('fieldId','').split('-')[-1]
+        context = aq_inner(self.context)
 
-        # figure out widget type
-        if getattr(field, 'Schema', None) is not None:
-            # compoundfield and arrayfield compatibility
-            for fieldId in fieldIds:
-                field = field.Schema().getField(fieldId)
+        portal_type = self.request.get('portal_type')
+        # If this is a Dexterity add form, then the context is the parent
+        # (which could be an Archetype). We must therefore double check against
+        # a portal_type var put on the request.
+        if portal_type == context.portal_type and shasattr(context, 'Schema'):
+            # Archetype
+            field = context.Schema().getField(fieldId)
             self.multivalued = field.multiValued
             self.widget = field.widget
         else:
             # z3c.form
-            # TODO: replace following two lines with code to lookup form through it's name or something
-            from z3cform.tests.form import TestForm
-            form = TestForm(self.context, self.request)
-            field = form.fields[fieldIds[-1]]
-            self.widget = FieldWidget(field.field, UserAndGroupSelectionWidget(self.request))
-
-            # ugly hack to check if field is multivalued since z3c.form does not provide the check atm
-            o = field.field._type
-            self.multivalued = hasattr(o, '__len__') and hasattr(o, '__iter__') and not isinstance(o, basestring)
+            fti = getUtility(IDexterityFTI, name=portal_type)
+            schema = fti.lookupSchema()
+            field = schema.get(fieldId)
+            self.widget = FieldWidget(field, UserAndGroupSelectionWidget(field, self.request))
+            self.multivalued = ICollection.providedBy(field)
 
         self.memberlookup = MemberLookup(self.context,
                                          self.request,

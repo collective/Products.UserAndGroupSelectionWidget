@@ -1,8 +1,12 @@
 function userandgroupselect_openBrowser(portal_url,
+                                        portal_type,
                                         fieldId,
                                         groupId) {
+
     var url = portal_url;
-    url += '/userandgroupselect_popup?fieldId=';
+    url += '/userandgroupselect_popup?portal_type=';
+    url += portal_type;
+    url += '&fieldId=';
     url += fieldId;
     url += '&selectgroup=';
     url += groupId;
@@ -20,6 +24,7 @@ function userandgroupselect_openBrowser(portal_url,
     window.open(url,
                 'userandgroupselect_popup',
                 defines);
+
 }
 
 function userandgroupselect_setEntry(id, value, fieldId, multi) {

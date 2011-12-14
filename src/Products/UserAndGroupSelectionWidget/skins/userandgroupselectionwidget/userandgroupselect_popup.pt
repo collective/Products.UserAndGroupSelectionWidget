@@ -89,6 +89,8 @@
           method="post"
           style="white-space:nowrap">
 
+        <input type="hidden" name="portal_type" tal:attributes="value request/portal_type" />
+
         <div>
           <strong><span i18n:translate="text_member_search">Search Member:</span></strong><br />
 
