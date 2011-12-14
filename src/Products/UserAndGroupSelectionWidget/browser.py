@@ -7,15 +7,13 @@ from Acquisition import aq_inner
 from ZTUtils import make_query
 
 from zope.interface import implements
-from zope.component import getMultiAdapter
 from zope.component import getUtility
-from zope.schema.interfaces import IField
-from plone.dexterity.interfaces import IDexterityFTI
 from zope.schema.interfaces import ICollection
 
 from z3c.form.widget import FieldWidget
 from z3cform.widget import UserAndGroupSelectionWidget
-from z3c.form.interfaces import IFieldWidget
+
+from plone.dexterity.interfaces import IDexterityFTI
 
 from Products.Archetypes.utils import shasattr
 from Products.CMFCore.utils import getToolByName
