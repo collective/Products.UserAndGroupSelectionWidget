@@ -1,7 +1,7 @@
 <div class="userandgroupselect"
      tal:define="value view/value;
                  help context/@@userandgroupselect_view;
-                 multiVal python:type(value) in [list, tuple, set];
+                 multiVal python:type(value) in [list, tuple, set] and 1 or 0;
                  groupId python: view.getGroupId(context);
                  groupId groupId | string:'';"
                  >
