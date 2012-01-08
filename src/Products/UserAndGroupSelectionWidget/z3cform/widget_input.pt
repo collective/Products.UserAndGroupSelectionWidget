@@ -38,7 +38,11 @@
 
     </tal:multi>
 
-    <div>
+    <div tal:define="
+                is_anon context/@@plone_portal_state/anonymous;
+                member context/@@plone_portal_state/member;
+                fullname python:member.getProperty('fullname', member.id)">
+
         <input type="button"
                class="searchButton"
                value="Browse..."
@@ -52,6 +56,13 @@
                onClick=""
                tal:attributes="onClick string:javascript:userandgroupselect_removeEntry('${view/id}', ${multiVal});
                                value python:multiVal and 'Remove selected users' or 'Remove user'"
+               i18n:attributes="value"
+               />
+        <input type="button"
+               value="Set to me"
+               onClick=""
+               tal:condition="not:is_anon"
+               tal:attributes="onClick string:javascript:userandgroupselect_setEntry('${member/id}', '${fullname}', '${view/id}', ${multiVal});"
                i18n:attributes="value"
                />
     </div>
