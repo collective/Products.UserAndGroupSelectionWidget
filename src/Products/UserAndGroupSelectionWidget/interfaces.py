@@ -1,5 +1,12 @@
 from zope.interface import Interface
 
+class ITestingLayer(Interface):
+    """ Marker interface for requests indicating the package has been installed.
+        
+        This layer is only for testing purposes, (i.e to register
+        schema-extenders) and has no production purpose.
+    """
+
 class IGenericGroupTranslation(Interface):
     """Utils to translate a generic name to a group name.
     """

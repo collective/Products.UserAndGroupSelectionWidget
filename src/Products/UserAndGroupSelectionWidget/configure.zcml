@@ -32,11 +32,19 @@
     <genericsetup:registerProfile
         name="default"
         title="UserAndGroupSelectionWidget"
-        directory="profile"
+        directory="profiles/default"
         description="Extension profile for UserAndGroupSelectionWidget"
         provides="Products.GenericSetup.interfaces.EXTENSION" />
 
+    <genericsetup:registerProfile
+        name="testing"
+        title="UserAndGroupSelectionWidget (Testing Purposes Only!)"
+        directory="profiles/testing"
+        description="Testing extension profile for UserAndGroupSelectionWidget"
+        provides="Products.GenericSetup.interfaces.EXTENSION" />
+
     <!-- testing -->
-    <adapter factory=".at.tests.content.PageExtender" />
+    <adapter factory=".at.tests.content.PageExtender" 
+             provides="archetypes.schemaextender.interfaces.IOrderableSchemaExtender" />
 
 </configure>

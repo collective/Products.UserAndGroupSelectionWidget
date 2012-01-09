@@ -1,12 +1,12 @@
-
-from Products.Archetypes import atapi
-from archetypes.schemaextender.field import ExtensionField
 from zope.component import adapts
 from zope.interface import implements
-from archetypes.schemaextender.interfaces import ISchemaExtender
+from archetypes.schemaextender.field import ExtensionField
+from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
+from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from Products.ATContentTypes.interface import IATDocument
+from Products.Archetypes import atapi
+from Products.UserAndGroupSelectionWidget.interfaces import ITestingLayer
 from Products.UserAndGroupSelectionWidget.at import widget
-
 
 class StringField(ExtensionField, atapi.StringField):
     """A string field."""
@@ -14,12 +14,10 @@ class StringField(ExtensionField, atapi.StringField):
 class LinesField(ExtensionField, atapi.LinesField):
     """A lines field."""
 
-
-
 class PageExtender(object):
     adapts(IATDocument)
-    implements(ISchemaExtender)
-
+    layer = ITestingLayer
+    implements(IOrderableSchemaExtender, IBrowserLayerAwareExtender)
 
     fields = [
         StringField("field1",
