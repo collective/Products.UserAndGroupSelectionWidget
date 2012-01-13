@@ -7,8 +7,7 @@ from interfaces import IUserAndGroupSelectionWidget
 from Products.UserAndGroupSelectionWidget.interfaces import IGenericGroupTranslation
 
 
-class UserAndGroupSelectionWidget(z3c.form.browser.widget.HTMLTextInputWidget,
-                                  z3c.form.widget.Widget):
+class UserAndGroupSelectionWidget(z3c.form.browser.text.TextWidget):
     """ User and Groups selection widget for z3c.form
     """
     zope.interface.implementsOnly(IUserAndGroupSelectionWidget)
