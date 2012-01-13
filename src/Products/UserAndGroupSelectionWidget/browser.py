@@ -14,6 +14,8 @@ from z3c.form.widget import FieldWidget
 from z3cform.widget import UserAndGroupSelectionWidget
 
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.autoform.interfaces import IFormFieldProvider
+from plone.behavior.interfaces import IBehaviorAssignable
 
 from Products.Archetypes.utils import shasattr
 from Products.CMFCore.utils import getToolByName
@@ -79,7 +81,18 @@ class UserAndGroupSelectPopupView(BrowserView):
             # z3c.form
             fti = getUtility(IDexterityFTI, name=portal_type)
             schema = fti.lookupSchema()
+
             field = schema.get(fieldId)
+            if field is None:
+                # The field might be defined in a behavior schema
+                behavior_assignable = IBehaviorAssignable(context, None)
+                for behavior_reg in behavior_assignable.enumerateBehaviors():
+                    behavior_schema = IFormFieldProvider(behavior_reg.interface, None)
+                    if behavior_schema is not None:
+                        field = behavior_schema.get(fieldId)
+                        if field is not None:
+                            continue
+
             self.widget = FieldWidget(field, UserAndGroupSelectionWidget(field, self.request))
             self.multivalued = ICollection.providedBy(field)
 
