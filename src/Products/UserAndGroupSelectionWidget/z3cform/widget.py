@@ -69,9 +69,11 @@ class UsersAndGroupsSelectionWidget(z3c.form.browser.multi.MultiWidget, Mixin):
     searchableProperties = ()   # which properties you want to search as well
                                 # eg. ('email', 'fullname', 'location')
 
+    def extract(self, default=z3c.form.interfaces.NO_VALUE):
+        return self.request.get(self.name, default)
+
     def update(self):
-        import pdb; pdb.set_trace()
-        super(UsersAndGroupsSelectionWidget, self).update()
+        return super(z3c.form.browser.multi.MultiWidget, self).update()
 
 
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
