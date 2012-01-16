@@ -19,8 +19,8 @@
     </tal:single>
 
     <tal:multi tal:condition="multiVal">
-
         <select multiple="multiple"
+                class="usersandgroupsselect"
                 tal:attributes="name string:${view/name}:list;
                                 id view/id;
                                 size view/size;">
@@ -33,15 +33,13 @@
                             />
                 </tal:notnone>
             </tal:repeat>
-
         </select>
-
     </tal:multi>
 
     <div tal:define="
                 is_anon context/@@plone_portal_state/anonymous;
                 member context/@@plone_portal_state/member;
-                fullname python:member.getProperty('fullname', member.id)">
+                fullname python:member.getProperty('fullname', member.id) or member.id">
 
         <input type="button"
                class="searchButton"
@@ -59,7 +57,7 @@
                i18n:attributes="value"
                />
         <input type="button"
-               value="Set to me"
+               value="Add me"
                onClick=""
                tal:condition="not:is_anon"
                tal:attributes="onClick string:javascript:userandgroupselect_setEntry('${member/id}', '${fullname}', '${view/id}', ${multiVal});"
