@@ -54,6 +54,7 @@ setup(
     extras_require = {
         'test': [
             'unittest2',
+            'zope.app.testing',
             'plone.app.testing',
             ],
         },

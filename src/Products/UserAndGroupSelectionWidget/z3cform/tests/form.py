@@ -1,4 +1,3 @@
-
 import zope.schema
 import zope.interface
 import z3c.form

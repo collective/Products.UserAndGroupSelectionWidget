@@ -1,12 +1,9 @@
 import zope.schema
 import zope.interface
 import zope.component
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 
 import z3c.form
-
 from Products.UserAndGroupSelectionWidget.interfaces import IGenericGroupTranslation
-
 from interfaces import IUserAndGroupSelectionWidget
 from interfaces import IUsersAndGroupsSelectionWidget
 
