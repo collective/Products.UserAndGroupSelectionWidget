@@ -68,8 +68,8 @@
             </tal:single>
 
             <tal:multi tal:condition="multiVal">
-
                <select multiple="multiple"
+                       class="usersandgroupsselect"
                        tal:attributes="name string:${fieldName}:list;
                                        id string:$fieldId;
                                        size size | python: 8;
