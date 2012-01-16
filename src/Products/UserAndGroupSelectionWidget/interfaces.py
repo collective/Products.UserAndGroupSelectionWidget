@@ -1,10 +1,15 @@
 from zope.interface import Interface
+from plone.app.z3cform.interfaces import IPloneFormLayer
 
 class ITestingLayer(Interface):
     """ Marker interface for requests indicating the package has been installed.
         
         This layer is only for testing purposes, (i.e to register
         schema-extenders) and has no production purpose.
+    """
+
+class ICustomFormLayer(IPloneFormLayer):
+    """ Request layer installed via browserlayer.xml
     """
 
 class IGenericGroupTranslation(Interface):
@@ -17,7 +22,6 @@ class IGenericGroupTranslation(Interface):
         In case of an unmatching genericgroup this function MUST return the
         original genericgroup.
         """
-
 
 class IGenericFilterTranslation(Interface):
     """Utils to translate a generic name to a group name.
