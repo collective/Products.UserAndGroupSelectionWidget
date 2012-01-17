@@ -6,7 +6,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 
-version = '2.0.5dev'
+version = '3.0dev'
 
 
 if sys.version_info < (2 , 7):

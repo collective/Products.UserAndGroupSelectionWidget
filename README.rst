@@ -37,14 +37,14 @@ Copyright (C) 2007-2010 BlueDynamics Alliance, Klein & Partner KG, Austria
 This code was made for BKS Chur Project: 
 Communication-Platform/Intranet/e-learning.
 
-
 -------
 Changes
 -------
 
-2.0.5 (Unreleased)
-------------------
+3.0 (Unreleased)
+----------------
 
+* z3c.form support (garbas, ielectric, jcbrand)
 * Fixed to be compatible with schema-extended fields (jcbrand)
 * Added possibility to search over user properites (garbas)
 
