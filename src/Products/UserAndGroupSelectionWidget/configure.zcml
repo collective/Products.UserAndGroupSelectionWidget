@@ -9,21 +9,9 @@
     <include package="bda.cache" />
     <include package="Products.GenericSetup" file="meta.zcml" />
 
+    <include package=".upgrade" />
+
     <cmf:registerDirectory name="userandgroupselectionwidget" />
-
-    <browser:page
-        for="*"
-        name="userandgroupselect_view"
-        class=".browser.UserAndGroupSelectView"
-        permission="zope.Public"
-        allowed_interface=".interfaces.IUserAndGroupSelectView" />
-
-    <browser:page
-        for="*"
-        name="userandgroupselectpopup_view"
-        class=".browser.UserAndGroupSelectPopupView"
-        permission="zope.Public"
-        allowed_interface=".interfaces.IUserAndGroupSelectPopupView" />
 
     <!-- XXX: nothing really to load right now
     <include zcml:provides="installed Products.Archetypes" package=".at" /-->
@@ -46,5 +34,19 @@
     <!-- testing -->
     <adapter factory=".at.tests.content.PageExtender" 
              provides="archetypes.schemaextender.interfaces.IOrderableSchemaExtender" />
+
+    <browser:page
+        for="*"
+        name="userandgroupselect_view"
+        class=".browser.UserAndGroupSelectView"
+        permission="zope.Public"
+        allowed_interface=".interfaces.IUserAndGroupSelectView" />
+
+    <browser:page
+        for="*"
+        name="userandgroupselectpopup_view"
+        class=".browser.UserAndGroupSelectPopupView"
+        permission="zope.Public"
+        allowed_interface=".interfaces.IUserAndGroupSelectPopupView" />
 
 </configure>

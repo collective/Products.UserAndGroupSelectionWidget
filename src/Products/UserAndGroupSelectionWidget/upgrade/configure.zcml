@@ -1,0 +1,21 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+  i18n_domain="plone">
+
+  <genericsetup:upgradeSteps
+        source="2"
+        destination="3"
+        profile="Products.UserAndGroupSelectionWidget:default"
+        >
+
+    <genericsetup:upgradeStep
+        title="Install form layer for z3c.form support"
+        description="Install a custom form layer, to which we register the z3c.form widget templates."
+        handler=".upgrade.installFormLayer"
+        />
+
+  </genericsetup:upgradeSteps>
+
+</configure>
+
