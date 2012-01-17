@@ -1,8 +1,12 @@
 function userandgroupselect_openBrowser(portal_url,
+                                        portal_type,
                                         fieldId,
                                         groupId) {
+
     var url = portal_url;
-    url += '/userandgroupselect_popup?fieldId=';
+    url += '/userandgroupselect_popup?portal_type=';
+    url += portal_type;
+    url += '&fieldId=';
     url += fieldId;
     url += '&selectgroup=';
     url += groupId;
@@ -20,10 +24,11 @@ function userandgroupselect_openBrowser(portal_url,
     window.open(url,
                 'userandgroupselect_popup',
                 defines);
+
 }
 
 function userandgroupselect_setEntry(id, value, fieldId, multi) {
-    if (multi == 0) {
+    if (multi === 0) {
         var field = document.getElementById(fieldId);
         var field_label = document.getElementById(fieldId + '_label');
         field.value = id;
@@ -45,7 +50,7 @@ function userandgroupselect_setEntry(id, value, fieldId, multi) {
 }
 
 function userandgroupselect_removeEntry(fieldId, multi) {
-    if (multi == 0) {
+    if (multi === 0) {
         var field = document.getElementById(fieldId);
         var field_label = document.getElementById(fieldId + '_label');
         field.value = '';
@@ -57,9 +62,20 @@ function userandgroupselect_removeEntry(fieldId, multi) {
                 list[x] = null;
             }
         }
-        // this seem not that senceful
-        // for (var x = 0; x < list.length; x++) {
-        //     list[x].selected = 'selected';
-        // }     
     }
 }
+
+jQuery(document).ready(function() {
+    // Make sure that all elements inside a multi-select widget is chosen.
+    // Otherwise, if only a subset is chosen, only those will be saved, which
+    // would confuse the hell out of users.
+    jQuery('select.usersandgroupsselect').each(function () {
+        var select = jQuery(this);
+        select.closest('form').submit(function (event) {
+            select.children('option').each(function () {
+                jQuery(this).attr('selected', 'selected');
+            });
+        });
+    });
+});
+

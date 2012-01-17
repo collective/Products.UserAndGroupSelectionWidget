@@ -11,7 +11,6 @@
                   groupId request/selectgroup | python: '';">
 
   <head>
-
     <base href="" tal:attributes="href here/renderBase" />
 
     <tal:define define="language here/Language;
@@ -26,12 +25,13 @@
     
     <script language="javascript" tal:content="structure string:
         function addSelectedUsers(e) {
-            if (e){
+            if (e) {
                 window.opener.userandgroupselect_setEntry(e.id, e.value, '${fieldId}', $multiVal);
             } else {
                 checkboxes = document.getElementsByName('uids');
-                var j = 0;
-                for (var i = 0; i &lt; checkboxes.length; i++) {
+                var j = 0,
+                    i;
+                for (i = 0; i &lt; checkboxes.length; i++) {
                     var e = checkboxes[i];
                     if (e.checked == true){
                         j ++;
@@ -69,14 +69,12 @@
         }
 
 	
-		function toggleUidsSelect(field) {
+        function toggleUidsSelect(field) {
             checkboxes = document.getElementsByName('uids');			
             for (i = 0; i < checkboxes.length; i++) {
                 checkboxes[i].checked = field.checked;
-	        }
-        }
-
-         ">
+	    }
+        }">
     </script>
     
 </head>
@@ -90,6 +88,8 @@
           tal:attributes="action string:${view/getObjectUrl}" 
           method="post"
           style="white-space:nowrap">
+
+        <input type="hidden" name="portal_type" tal:attributes="value request/portal_type" />
 
         <div>
           <strong><span i18n:translate="text_member_search">Search Member:</span></strong><br />

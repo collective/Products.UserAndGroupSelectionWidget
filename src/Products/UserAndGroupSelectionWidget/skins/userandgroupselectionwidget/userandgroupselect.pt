@@ -68,8 +68,8 @@
             </tal:single>
 
             <tal:multi tal:condition="multiVal">
-
                <select multiple="multiple"
+                       class="usersandgroupsselect"
                        tal:attributes="name string:${fieldName}:list;
                                        id string:$fieldId;
                                        size size | python: 8;
@@ -95,7 +95,8 @@
                    i18n:attributes="value"
                    tal:define="groupId groupId | string:'';
                                enableSearch enableSearch | python:1"
-                   tal:attributes="onClick string:javascript:userandgroupselect_openBrowser('${context/absolute_url}', '${fieldId}', '${groupId}')"
+                   tal:attributes="onClick
+                   string:javascript:userandgroupselect_openBrowser('${context/absolute_url}', '${context/portal_type}', '${fieldId}', '${groupId}')"
                    />
               <input type="button"
                    class="destructive"

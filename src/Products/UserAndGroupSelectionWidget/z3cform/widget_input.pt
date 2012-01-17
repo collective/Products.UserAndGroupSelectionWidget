@@ -1,0 +1,68 @@
+<div class="userandgroupselect"
+     tal:define="value view/value;
+                 help context/@@userandgroupselect_view;
+                 multiVal python:type(value) in [list, tuple, set] and 1 or 0;
+                 groupId python: view.getGroupId(context);
+                 groupId groupId | string:'';"
+                 >
+
+    <script src="userandgroupselect.js"></script>
+
+    <tal:single condition="not: multiVal">
+        <input size="30" type="text" value="" readonly="readonly"
+               tal:attributes="value python: help.getUserOrGroupTitle(value);
+                               id string:${view/id}_label"
+               />
+        <input type="hidden" value="" name=""
+               tal:attributes="name view/name; id view/id; value value;"
+                />
+    </tal:single>
+
+    <tal:multi tal:condition="multiVal">
+        <select multiple="multiple"
+                class="usersandgroupsselect"
+                tal:attributes="name string:${view/name}:list;
+                                id view/id;
+                                size view/size;">
+
+            <tal:repeat repeat="item value">
+                <tal:notnone tal:condition="item">
+                    <option selected="selected"
+                            tal:attributes="value item"
+                            tal:content="python: help.getUserOrGroupTitle(item)"
+                            />
+                </tal:notnone>
+            </tal:repeat>
+        </select>
+    </tal:multi>
+
+    <div tal:define="
+                is_anon context/@@plone_portal_state/anonymous;
+                member context/@@plone_portal_state/member;
+                fullname python:member.getProperty('fullname', member.id) or member.id">
+
+        <input type="button"
+               class="searchButton"
+               value="Browse..."
+               onClick=""
+               tal:attributes="onClick string:javascript:userandgroupselect_openBrowser('${context/absolute_url}', '${view/portal_type}', '${view/id}', '${groupId}')"
+               i18n:attributes="value"
+               />
+        <input type="button"
+               class="destructive"
+               value="Remove selected users"
+               onClick=""
+               tal:attributes="onClick string:javascript:userandgroupselect_removeEntry('${view/id}', ${multiVal});
+                               value python:multiVal and 'Remove selected users' or 'Remove user'"
+               i18n:attributes="value"
+               />
+        <input type="button"
+               value="Add me"
+               onClick=""
+               tal:condition="not:is_anon"
+               tal:attributes="onClick string:javascript:userandgroupselect_setEntry('${member/id}', '${fullname}', '${view/id}', ${multiVal});"
+               i18n:attributes="value"
+               />
+    </div>
+
+</div>

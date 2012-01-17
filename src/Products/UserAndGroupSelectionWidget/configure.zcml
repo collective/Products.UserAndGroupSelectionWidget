@@ -1,34 +1,50 @@
 <configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:cmf="http://namespaces.zope.org/cmf"
+           xmlns:zcml="http://namespaces.zope.org/zcml"
+           xmlns:five="http://namespaces.zope.org/five"
            xmlns:browser="http://namespaces.zope.org/browser"
            xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-           xmlns:five="http://namespaces.zope.org/five"
            i18n_domain="userandgroupselectionwidget">
            
     <include package="bda.cache" />
     <include package="Products.GenericSetup" file="meta.zcml" />
 
-    <genericsetup:registerProfile
-        name="default"
-        title="UserAndGroupSelectionWidget"
-        directory="profile"
-        description="Extension profile for UserAndGroupSelectionWidget"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-    />
+    <cmf:registerDirectory name="userandgroupselectionwidget" />
 
     <browser:page
         for="*"
         name="userandgroupselect_view"
         class=".browser.UserAndGroupSelectView"
         permission="zope.Public"
-        allowed_interface=".interfaces.IUserAndGroupSelectView"
-    />
+        allowed_interface=".interfaces.IUserAndGroupSelectView" />
 
     <browser:page
         for="*"
         name="userandgroupselectpopup_view"
         class=".browser.UserAndGroupSelectPopupView"
         permission="zope.Public"
-        allowed_interface=".interfaces.IUserAndGroupSelectPopupView"
-    />
+        allowed_interface=".interfaces.IUserAndGroupSelectPopupView" />
+
+    <!-- XXX: nothing really to load right now
+    <include zcml:provides="installed Products.Archetypes" package=".at" /-->
+    <include zcml:provides="installed z3c.form" package=".z3cform" />
+
+    <genericsetup:registerProfile
+        name="default"
+        title="UserAndGroupSelectionWidget"
+        directory="profiles/default"
+        description="Extension profile for UserAndGroupSelectionWidget"
+        provides="Products.GenericSetup.interfaces.EXTENSION" />
+
+    <genericsetup:registerProfile
+        name="testing"
+        title="UserAndGroupSelectionWidget (Testing Purposes Only!)"
+        directory="profiles/testing"
+        description="Testing extension profile for UserAndGroupSelectionWidget"
+        provides="Products.GenericSetup.interfaces.EXTENSION" />
+
+    <!-- testing -->
+    <adapter factory=".at.tests.content.PageExtender" 
+             provides="archetypes.schemaextender.interfaces.IOrderableSchemaExtender" />
 
 </configure>

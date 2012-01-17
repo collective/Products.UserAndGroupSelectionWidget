@@ -1,0 +1,21 @@
+<tal:root define="value view/value;
+                  help context/@@userandgroupselect_view;
+                  multiVal python:type(value) in [list, tuple, set]">
+                  
+    <tal:single tal:condition="not:multiVal">
+        <div class="usergroupselect-value"
+            tal:content="python: help.getUserOrGroupTitle(value)">
+           UserOrGroupTitle
+       </div>
+    </tal:single>
+
+    <tal:multival tal:condition="multiVal">
+        <tal:users tal:repeat="item value">
+            <div class="usergroupselect-value"
+                 tal:content="python: help.getUserOrGroupTitle(item)">
+                UserOrGroupTitle
+            </div>
+        </tal:users> 
+    </tal:multival>
+
+</tal:root>

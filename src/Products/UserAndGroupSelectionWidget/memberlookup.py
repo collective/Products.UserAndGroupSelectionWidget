@@ -67,6 +67,9 @@ class MemberLookup(object):
         if group != 'ignore' and group != '':
             key = 'userandgroupselectionwidget:%s' % group
             manager = ICacheManager(CACHEPROVIDER)
+            if isinstance(key, unicode):
+                # The CacheManager can't handle unicode
+                key = key.encode('utf-8')
             users = manager.getData(self._readGroupMembers, key, args=[group])
         else:
             users = self._searchUsers()

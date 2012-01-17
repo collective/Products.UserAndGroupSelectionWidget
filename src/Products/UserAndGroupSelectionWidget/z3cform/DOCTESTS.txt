@@ -1,0 +1,65 @@
+=============================================================
+UsersAndGroupsSelectionWidget (MultiVal) widget for z3c.form
+=============================================================
+
+Like any widget, the UsersAndGroupsSelectionWidget provides the ''IWidget''
+interface:
+
+    >>> from zope.interface.verify import verifyClass
+    >>> from z3c.form import interfaces
+    >>> from Products.UserAndGroupSelectionWidget.z3cform.widget import UsersAndGroupsSelectionWidget
+    >>> from Products.UserAndGroupSelectionWidget.z3cform.interfaces import IUsersAndGroupsSelectionWidget
+
+    >>> verifyClass(interfaces.IWidget, UsersAndGroupsSelectionWidget)
+    True
+    >>> verifyClass(IUsersAndGroupsSelectionWidget, UsersAndGroupsSelectionWidget)
+    True
+
+The widget can be instantiated using only the request:
+
+    >>> from z3c.form.testing import TestRequest
+    >>> request = TestRequest()
+
+    >>> widget = UsersAndGroupsSelectionWidget(request)
+
+Before rendering the widget, one has to set the name and id of the widget:
+
+    >>> widget.id = 'widget.id.usersandgroups'
+    >>> widget.name = 'widget.id.usersandgroups'
+
+We also need to register the template for at least the widget and request:
+    
+    >>> import zope.component
+    >>> from zope.pagetemplate.interfaces import IPageTemplate
+    >>> from z3c.form.widget import WidgetTemplateFactory
+
+    >>> def getPath(filename):
+    ...     import os.path
+    ...     import Products.UserAndGroupSelectionWidget
+    ...     return os.path.join(os.path.dirname(Products.UserAndGroupSelectionWidget.__file__), filename)
+
+    >>> zope.component.provideAdapter(
+    ...     WidgetTemplateFactory(getPath('z3cform/widget_input.pt'), 'text/html'),
+    ...     (None, None, None, None, interfaces.IMultiWidget),
+    ...     IPageTemplate, name=interfaces.INPUT_MODE)
+
+For the next test, we need to setup our button handler adapters.
+
+    >>> from z3c.form import button
+    >>> zope.component.provideAdapter(button.ButtonActions)
+    >>> zope.component.provideAdapter(button.ButtonActionHandler)
+    >>> zope.component.provideAdapter(button.ButtonAction,
+    ...     provides=interfaces.IButtonAction)
+
+Our submit buttons will need a template as well:
+
+    >>> from z3c.form.testing import getPath
+    >>> zope.component.provideAdapter(
+    ...     WidgetTemplateFactory(getPath('submit_input.pt'), 'text/html'),
+    ...     (None, None, None, None, interfaces.ISubmitWidget),
+    ...     IPageTemplate, name=interfaces.INPUT_MODE)
+
+We can now render the widget:
+
+    >>> widget.update()
+
