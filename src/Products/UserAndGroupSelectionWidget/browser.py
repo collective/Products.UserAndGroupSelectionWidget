@@ -91,7 +91,7 @@ class UserAndGroupSelectPopupView(BrowserView):
                     if behavior_schema is not None:
                         field = behavior_schema.get(fieldId)
                         if field is not None:
-                            continue
+                            break
 
             self.widget = FieldWidget(field, UserAndGroupSelectionWidget(field, self.request))
             self.multivalued = ICollection.providedBy(field)
