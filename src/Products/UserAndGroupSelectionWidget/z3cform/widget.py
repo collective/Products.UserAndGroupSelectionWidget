@@ -3,6 +3,9 @@ import zope.interface
 import zope.component
 
 import z3c.form
+
+from Acquisition import aq_base
+
 from Products.UserAndGroupSelectionWidget.interfaces import IGenericGroupTranslation
 from interfaces import IUserAndGroupSelectionWidget
 from interfaces import IUsersAndGroupsSelectionWidget
@@ -11,8 +14,19 @@ class Mixin(object):
     """ """
 
     @property
-    def portal_type(self):
-        return self.form.portal_type
+    def ignoreContext(self):
+        if hasattr(aq_base(self.form), 'ignoreContext'):
+            return self.form.ignoreContext
+        return False
+
+    @property
+    def type_or_dottedname(self):
+        try:
+            return self.form.portal_type
+        except AttributeError:
+            return '%s.%s' % (
+                        self.form.__module__, 
+                        self.form.__class__.__name__)
 
     def getGroupId(self, instance):
         groupid = self.groupName

@@ -1,11 +1,16 @@
 function userandgroupselect_openBrowser(portal_url,
-                                        portal_type,
+                                        type_or_dottedname,
                                         fieldId,
-                                        groupId) {
-
-    var url = portal_url;
-    url += '/userandgroupselect_popup?portal_type=';
-    url += portal_type;
+                                        groupId,
+                                        ignoreContext) {
+    var url = portal_url + '/userandgroupselect_popup';
+    if ((ignoreContext === undefined)||(ignoreContext == "False")) {
+        url += '?portal_type=';
+    }
+    else {
+        url += '?ignoreContext=1&dottedname=';
+    }
+    url += type_or_dottedname;
     url += '&fieldId=';
     url += fieldId;
     url += '&selectgroup=';
@@ -20,11 +25,9 @@ function userandgroupselect_openBrowser(portal_url,
     defines += 'resizable=yes,';
     defines += 'width=500,';
     defines += 'height=550';
-    
     window.open(url,
                 'userandgroupselect_popup',
                 defines);
-
 }
 
 function userandgroupselect_setEntry(id, value, fieldId, multi) {

@@ -88,8 +88,10 @@
           tal:attributes="action string:${view/getObjectUrl}" 
           method="post"
           style="white-space:nowrap">
-
-        <input type="hidden" name="portal_type" tal:attributes="value request/portal_type" />
+    
+        <input type="hidden" name="portal_type" tal:attributes="value request/portal_type|nothing" />
+        <input type="hidden" name="dottedname" tal:attributes="value request/dottedname|nothing" />
+        <input type="hidden" name="ignoreContext" tal:attributes="value request/ignoreContext|nothing" />
 
         <div>
           <strong><span i18n:translate="text_member_search">Search Member:</span></strong><br />

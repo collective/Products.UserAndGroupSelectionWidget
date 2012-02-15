@@ -14,8 +14,7 @@ from z3c.form.widget import FieldWidget
 from z3cform.widget import UserAndGroupSelectionWidget
 
 from plone.dexterity.interfaces import IDexterityFTI
-from plone.autoform.interfaces import IFormFieldProvider
-from plone.behavior.interfaces import IBehaviorAssignable
+from plone.dexterity import utils
 
 from Products.Archetypes.utils import shasattr
 from Products.CMFCore.utils import getToolByName
@@ -60,41 +59,43 @@ class UserAndGroupSelectView(BrowserView):
 class UserAndGroupSelectPopupView(BrowserView):
     """See interfaces.IUserAndGroupSelectPopupView for documentation details.
     """
-
     implements(IUserAndGroupSelectView)
 
     def initialize(self):
         """Initialize the view class."""
         fieldId = self.request.get('fieldId','').split('-')[-1]
-        context = aq_inner(self.context)
-
-        portal_type = self.request.get('portal_type')
-        # If this is a Dexterity add form, then the context is the parent
-        # (which could be an Archetype). We must therefore double check against
-        # a portal_type var put on the request.
-        if portal_type == context.portal_type and shasattr(context, 'Schema'):
-            # Archetype
-            field = context.Schema().getField(fieldId)
-            self.multivalued = field.multiValued
-            self.widget = field.widget
-        else:
-            # z3c.form
-            fti = getUtility(IDexterityFTI, name=portal_type)
-            schema = fti.lookupSchema()
-
-            field = schema.get(fieldId)
-            if field is None:
-                # The field might be defined in a behavior schema
-                behavior_assignable = IBehaviorAssignable(context, None)
-                for behavior_reg in behavior_assignable.enumerateBehaviors():
-                    behavior_schema = IFormFieldProvider(behavior_reg.interface, None)
-                    if behavior_schema is not None:
-                        field = behavior_schema.get(fieldId)
-                        if field is not None:
-                            break
-
+        if  self.request.get('ignoreContext'):
+            # For contextless z3c.form forms, we can't rely on the context
+            dottedname = self.request.get('dottedname')
+            klass = utils.resolveDottedName(dottedname)
+            field = klass(self.context, self.request).fields.get(fieldId).field
             self.widget = FieldWidget(field, UserAndGroupSelectionWidget(field, self.request))
             self.multivalued = ICollection.providedBy(field)
+        else:
+            context = aq_inner(self.context)
+            portal_type = self.request.get('portal_type')
+            if portal_type == context.portal_type and shasattr(context, 'Schema'):
+                # Archetype
+                field = context.Schema().getField(fieldId)
+                self.multivalued = field.multiValued
+                self.widget = field.widget
+            else:
+                # z3c.form
+                fti = getUtility(IDexterityFTI, name=portal_type)
+                schema = fti.lookupSchema()
+                field = schema.get(fieldId)
+                if field is None:
+                    # The field might be defined in a behavior schema.
+                    # Get the behaviors from either the context or the
+                    # portal_type.
+                    for behavior_schema in \
+                            utils.getAdditionalSchemata(self.context, portal_type):
+                        if behavior_schema is not None:
+                            field = behavior_schema.get(fieldId)
+                            if field is not None:
+                                    break
+                self.widget = FieldWidget(field, UserAndGroupSelectionWidget(field, self.request))
+                self.multivalued = ICollection.providedBy(field)
 
         self.memberlookup = MemberLookup(self.context,
                                          self.request,
