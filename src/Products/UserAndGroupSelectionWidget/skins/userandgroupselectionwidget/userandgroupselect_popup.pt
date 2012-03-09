@@ -91,7 +91,7 @@
     
         <input type="hidden" name="portal_type" tal:attributes="value request/portal_type|nothing" />
         <input type="hidden" name="dottedname" tal:attributes="value request/dottedname|nothing" />
-        <input type="hidden" name="ignoreContext" tal:attributes="value request/ignoreContext|nothing" />
+        <input type="hidden" name="hasContentType" tal:attributes="value request/hasContentType|nothing" />
 
         <div>
           <strong><span i18n:translate="text_member_search">Search Member:</span></strong><br />

@@ -1,16 +1,16 @@
 function userandgroupselect_openBrowser(portal_url,
-                                        type_or_dottedname,
+                                        typeOrDottedname,
                                         fieldId,
                                         groupId,
-                                        ignoreContext) {
+                                        hasContentType) {
     var url = portal_url + '/userandgroupselect_popup';
-    if ((ignoreContext === undefined)||(ignoreContext == "False")) {
+    if ((hasContentType === undefined)||(hasContentType == "False")) {
         url += '?portal_type=';
     }
     else {
-        url += '?ignoreContext=1&dottedname=';
+        url += '?hasContentType=1&dottedname=';
     }
-    url += type_or_dottedname;
+    url += typeOrDottedname;
     url += '&fieldId=';
     url += fieldId;
     url += '&selectgroup=';

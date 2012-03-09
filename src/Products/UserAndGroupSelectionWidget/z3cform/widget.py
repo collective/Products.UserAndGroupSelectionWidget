@@ -3,6 +3,7 @@ import zope.interface
 import zope.component
 
 import z3c.form
+from z3c.form import interfaces
 
 from Acquisition import aq_base
 
@@ -13,14 +14,20 @@ from interfaces import IUsersAndGroupsSelectionWidget
 class Mixin(object):
     """ """
 
-    @property
-    def ignoreContext(self):
+    def hasContentType(self):
+        """ We need to differentiate between z3c.form forms that are bound to
+            content types (i.e dexterity) and those that aren't.
+        """
+        if interfaces.IAddForm.providedBy(self.form):
+            # Add forms are also contextless, but they do have a portal_type
+            # that we can use. 
+            return False
         if hasattr(aq_base(self.form), 'ignoreContext'):
             return self.form.ignoreContext
         return False
 
     @property
-    def type_or_dottedname(self):
+    def typeOrDottedname(self):
         try:
             return self.form.portal_type
         except AttributeError:
@@ -44,7 +51,7 @@ class Mixin(object):
         return groupid
 
 
-class UserAndGroupSelectionWidget(z3c.form.browser.text.TextWidget, Mixin):
+class UserAndGroupSelectionWidget(Mixin, z3c.form.browser.text.TextWidget):
     """ A single-valued user or group selection widget for z3c.form
     """
     zope.interface.implementsOnly(IUserAndGroupSelectionWidget)
@@ -63,7 +70,7 @@ class UserAndGroupSelectionWidget(z3c.form.browser.text.TextWidget, Mixin):
         super(UserAndGroupSelectionWidget, self).__init__(request)
 
 
-class UsersAndGroupsSelectionWidget(z3c.form.browser.multi.MultiWidget, Mixin):
+class UsersAndGroupsSelectionWidget(Mixin, z3c.form.browser.multi.MultiWidget):
     """ A multi-valued users and/or groups selection widget for z3c.form
     """
     zope.interface.implementsOnly(

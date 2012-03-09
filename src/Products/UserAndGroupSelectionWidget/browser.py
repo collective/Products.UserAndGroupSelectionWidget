@@ -64,7 +64,7 @@ class UserAndGroupSelectPopupView(BrowserView):
     def initialize(self):
         """Initialize the view class."""
         fieldId = self.request.get('fieldId','').split('-')[-1]
-        if  self.request.get('ignoreContext'):
+        if  self.request.get('hasContentType'):
             # For contextless z3c.form forms, we can't rely on the context
             dottedname = self.request.get('dottedname')
             klass = utils.resolveDottedName(dottedname)
