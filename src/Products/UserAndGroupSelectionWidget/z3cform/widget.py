@@ -2,7 +2,10 @@ import zope.schema
 import zope.interface
 import zope.component
 
-import z3c.form
+import z3c.form.browser.multi
+import z3c.form.browser.text
+import z3c.form.interfaces
+import z3c.form.widget
 from z3c.form import interfaces
 
 from Acquisition import aq_base
