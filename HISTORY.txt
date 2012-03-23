@@ -4,7 +4,7 @@ Changes
 -------
 
 3.0b1 (2012-03-23)
----------------------
+------------------
 
 * z3c.form support (garbas, ielectric, jcbrand)
 * Fixed to be compatible with schema-extended fields (jcbrand)
