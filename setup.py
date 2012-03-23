@@ -6,7 +6,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 
-version = '3.0dev'
+version = '3.0beta1'
 
 if sys.version_info < (2, 7):
     extra_install_requires = ['ordereddict']
