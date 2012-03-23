@@ -49,6 +49,8 @@ setup(
         'Products.CMFPlone',
         'Products.PlonePAS',
         'bda.cache',
+        'lxml',
+        'plone.dexterity',
         ] + extra_install_requires,
     extras_require = {
         'test': [
