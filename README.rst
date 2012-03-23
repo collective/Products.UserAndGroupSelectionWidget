@@ -21,6 +21,15 @@ Dependencies
 
 * bda.cache
 
+The 3.0beta1 version now additionally depends on:
+
+* lxml
+* plone.dexterity
+
+It's possible to make these dependencies optional, and this should perhaps be done
+before the final 3.0 release.
+
+
 --------------------
 Author and Copyright
 --------------------
@@ -38,25 +47,3 @@ Copyright (C) 2007-2010 BlueDynamics Alliance, Klein & Partner KG, Austria
 
 This code was made for BKS Chur Project: 
 Communication-Platform/Intranet/e-learning.
-
--------
-Changes
--------
-
-3.0 (Unreleased)
-----------------
-
-* z3c.form support (garbas, ielectric, jcbrand)
-* Fixed to be compatible with schema-extended fields (jcbrand)
-* Added possibility to search over user properites (garbas)
-
-2.0.4 (2011-07-08)
-------------------
-
-* Plone 4 compatibility fixes (ajung)
-
-2.0.2
------
-
-* sort list of groups in popup by group title (jensens, 2010-08-24)
-

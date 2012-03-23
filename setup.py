@@ -18,7 +18,7 @@ setup(
     version=version,
     description='Archetypes Widget for User and Group Selection, works '
                 'with many users.',
-    long_description=open('README.rst').read() + open('LICENSE.txt').read(),
+    long_description=open('README.rst').read() + open('HISTORY.txt').read() + open('LICENSE.txt').read(),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
