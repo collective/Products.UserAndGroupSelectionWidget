@@ -1,0 +1,9 @@
+include *.rst
+recursive-include src/Products/UserAndGroupSelectionWidget *.zcml
+recursive-include src/Products/UserAndGroupSelectionWidget/i18n *.mo
+recursive-include src/Products/UserAndGroupSelectionWidget/i18n *.po
+graft src/Products/UserAndGroupSelectionWidget/profiles
+graft src/Products/UserAndGroupSelectionWidget/skins
+graft src/Products/UserAndGroupSelectionWidget/z3cform
+graft src/Products/UserAndGroupSelectionWidget/upgrade
+graft src/Products/UserAndGroupSelectionWidget/at
