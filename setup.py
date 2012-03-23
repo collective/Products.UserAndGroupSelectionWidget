@@ -8,12 +8,10 @@ from setuptools import find_packages
 
 version = '3.0dev'
 
-
-if sys.version_info < (2 , 7):
+if sys.version_info < (2, 7):
     extra_install_requires = ['ordereddict']
 else:
     extra_install_requires = []
-
 
 setup(
     name='Products.UserAndGroupSelectionWidget',
@@ -44,6 +42,7 @@ setup(
         'setuptools',
         'zope.interface',
         'zope.component',
+        'zope.schema>=4.1.1',
         'Zope2',
         'AccessControl',
         'Products.CMFCore',
