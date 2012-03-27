@@ -130,14 +130,14 @@ class MemberLookup(object):
             if user is None:
                 continue
             user_id = user.getId()
+            user_fn = None
             for psheet in user.getOrderedPropertySheets():
                 if psheet.hasProperty('fullname'):
                     user_fn = psheet.getProperty('fullname')
                     if user_fn:
                         # do not search other sheets
                         break
-                else:
-                    user_fn = user_id
+            user_fn = user_fn or user_id
             entry = {
                 'id': user_id,
                 'fullname': user_fn,
