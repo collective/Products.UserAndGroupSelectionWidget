@@ -4,7 +4,7 @@ Changes
 -------
 
 3.0b2 (2012-03-29)
--------------------
+------------------
 
 - Bugfix. Fallback to user id if fullname property not set. (jcbrand) 
 
