@@ -17,14 +17,10 @@ from interfaces import IUsersAndGroupsSelectionWidget
 class Mixin(object):
     """ """
 
-    def hasContentType(self):
+    def ignoreContext(self):
         """ We need to differentiate between z3c.form forms that are bound to
             content types (i.e dexterity) and those that aren't.
         """
-        if interfaces.IAddForm.providedBy(self.form):
-            # Add forms are also contextless, but they do have a portal_type
-            # that we can use. 
-            return False
         if hasattr(aq_base(self.form), 'ignoreContext'):
             return self.form.ignoreContext
         return False

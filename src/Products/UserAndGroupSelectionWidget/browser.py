@@ -7,7 +7,7 @@ from Acquisition import aq_inner
 from ZTUtils import make_query
 
 from zope.interface import implements
-from zope.component import getUtility
+from zope.component import queryUtility 
 from zope.schema.interfaces import ICollection
 
 from z3c.form.widget import FieldWidget
@@ -64,32 +64,36 @@ class UserAndGroupSelectPopupView(BrowserView):
     def initialize(self):
         """Initialize the view class."""
         fieldId = self.request.get('fieldId','').split('-')[-1]
-        if  self.request.get('hasContentType'):
-            # For contextless z3c.form forms, we can't rely on the context
-            dottedname = self.request.get('dottedname')
-            klass = utils.resolveDottedName(dottedname)
-            field = klass(self.context, self.request).fields.get(fieldId).field
-            self.widget = FieldWidget(field, UserAndGroupSelectionWidget(field, self.request))
-            self.multivalued = ICollection.providedBy(field)
-        else:
-            context = aq_inner(self.context)
-            portal_type = self.request.get('portal_type')
-            if portal_type == context.portal_type and shasattr(context, 'Schema'):
-                # Archetype
-                field = context.Schema().getField(fieldId)
-                self.multivalued = field.multiValued
-                self.widget = field.widget
+        typeOrDottedname = self.request.get('typeOrDottedname')
+        context = aq_inner(self.context)
+        if typeOrDottedname == context.portal_type and shasattr(context, 'Schema'):
+            # Archetype
+            field = context.Schema().getField(fieldId)
+            self.multivalued = field.multiValued
+            self.widget = field.widget
+        else: 
+            fti = queryUtility(IDexterityFTI, name=typeOrDottedname)
+            if fti is None:
+                # Must be a standalone z3c.form forms then.
+                klass = utils.resolveDottedName(typeOrDottedname)
+                field = klass(self.context, self.request).fields.get(fieldId).field
+                self.widget = FieldWidget(field, UserAndGroupSelectionWidget(field, self.request))
+                self.multivalued = ICollection.providedBy(field)
             else:
-                # z3c.form
-                fti = getUtility(IDexterityFTI, name=portal_type)
+                # Dexterity
                 schema = fti.lookupSchema()
                 field = schema.get(fieldId)
                 if field is None:
                     # The field might be defined in a behavior schema.
                     # Get the behaviors from either the context or the
-                    # portal_type.
+                    # portal_type (but not both at the same time).
+                    if self.request.get('ignoreContext'):
+                        context = None
+                        portal_type = typeOrDottedname
+                    else:
+                        portal_type = None
                     for behavior_schema in \
-                            utils.getAdditionalSchemata(self.context, portal_type):
+                            utils.getAdditionalSchemata(context, portal_type):
                         if behavior_schema is not None:
                             field = behavior_schema.get(fieldId)
                             if field is not None:
@@ -100,6 +104,7 @@ class UserAndGroupSelectPopupView(BrowserView):
         self.memberlookup = MemberLookup(self.context,
                                          self.request,
                                          self.widget)
+
 
     def getObjectUrl(self):
         r = '%s/%s' % (self.context.absolute_url(), 'userandgroupselect_popup')

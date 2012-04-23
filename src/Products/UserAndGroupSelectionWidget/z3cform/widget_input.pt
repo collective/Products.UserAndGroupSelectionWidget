@@ -45,7 +45,8 @@
                class="searchButton"
                value="Browse..."
                onClick=""
-               tal:attributes="onClick string:javascript:userandgroupselect_openBrowser('${context/absolute_url}', '${view/typeOrDottedname}', '${view/id}', '${groupId}', '${view/hasContentType}')"
+               tal:attributes="onClick
+               string:javascript:userandgroupselect_openBrowser('${context/absolute_url}', '${view/typeOrDottedname}', '${view/id}', '${groupId}', '${view/ignoreContext}')"
                i18n:attributes="value"
                />
         <input type="button"

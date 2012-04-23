@@ -2,13 +2,13 @@ function userandgroupselect_openBrowser(portal_url,
                                         typeOrDottedname,
                                         fieldId,
                                         groupId,
-                                        hasContentType) {
+                                        ignoreContext) {
     var url = portal_url + '/userandgroupselect_popup';
-    if ((hasContentType === undefined)||(hasContentType == "False")) {
-        url += '?portal_type=';
+    if ((ignoreContext === undefined)||(ignoreContext == "False")) {
+        url += '?typeOrDottedname=';
     }
     else {
-        url += '?hasContentType=1&dottedname=';
+        url += '?ignoreContext=1&typeOrDottedname=';
     }
     url += typeOrDottedname;
     url += '&fieldId=';
