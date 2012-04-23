@@ -3,7 +3,7 @@
 Changes
 -------
 
-3.0b4 (unreleased)
+3.0b4 (2012-04-23)
 ------------------
 
 - Not all files were included in previous egg. Update MANIFEST.in (jcbrand)
