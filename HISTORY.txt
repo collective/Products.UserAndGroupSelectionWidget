@@ -3,7 +3,7 @@
 Changes
 -------
 
-3.0b3 (unreleased)
+3.0b3 (2012-04-23)
 ------------------
 
 - Ignore the context for Dexterity add forms. (jcbrand)
