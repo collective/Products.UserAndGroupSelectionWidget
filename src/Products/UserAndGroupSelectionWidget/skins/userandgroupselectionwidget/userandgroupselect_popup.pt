@@ -90,7 +90,7 @@
           style="white-space:nowrap">
     
         <input type="hidden" name="typeOrDottedname" tal:attributes="value request/typeOrDottedname|nothing" />
-        <input type="hidden" name="ignoreContext" tal:attributes="value request/hasContentType|nothing" />
+        <input type="hidden" name="ignoreContext" tal:attributes="value request/ignoreContext|nothing" />
 
         <div>
           <strong><span i18n:translate="text_member_search">Search Member:</span></strong><br />
