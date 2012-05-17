@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*
 
 import Globals
-import ordereddict
+try:
+    from collections import OrderedDict
+except ImportError:  # pragma: no coverage
+    from ordereddict import OrderedDict
 from AccessControl import ClassSecurityInfo
 from Products.CMFPlone.utils import safe_unicode
 
@@ -27,7 +30,7 @@ class AlphaBatch(object):
         self.context = context
         self.results = results
         self.currentresults = []
-        self.pagemap = ordereddict.OrderedDict()
+        self.pagemap = OrderedDict()
         self.request = request
         self.showBatch = True
                 
