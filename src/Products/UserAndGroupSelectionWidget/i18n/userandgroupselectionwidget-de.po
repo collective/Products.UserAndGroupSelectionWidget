@@ -16,59 +16,64 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: userandgroupselectionwidget\n"
 
-#. Default: "Browse..."
-#: ../skins/userandgroupselectionwidget/userandgroupselect.pt
-msgid "Browse..."
-msgstr "Suchen..."
-
+#. Default: "Remove selected users"
+#: ../skins/userandgroupselectionwidget/userandgroupselect.pt:107
 msgid "Remove selected users"
 msgstr "markierte Benutzer entfernen"
 
+#. Default: "Remove user"
+#: ../skins/userandgroupselectionwidget/userandgroupselect.pt:111
 msgid "Remove user"
 msgstr "entfernen"
 
-#. Default: "Search"
-#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
-msgid "Search"
-msgstr "Suchen"
+#. Default: "Add me"
+#: ../skins/userandgroupselectionwidget/userandgroupselect.pt:114
+msgid "add_me"
+msgstr ""
 
-#. Default: "add_selected_users"
-#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
-msgid "add_selected_users"
-msgstr "markierte Benutzer hinzufügen"
-
-#. Default: "add_selected_groups"
-#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
+#. Default: "add selected group(s)"
+#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt:159
+#, fuzzy
 msgid "add_selected_groups"
 msgstr "markierte Gruppe(n) hinzufügen"
 
-#. Default: "close_window"
-#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
+#. Default: "add selected users"
+#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt:221
+msgid "add_selected_users"
+msgstr ""
+
+#. Default: "Browse..."
+#: ../skins/userandgroupselectionwidget/userandgroupselect.pt:95
+msgid "browse_users"
+msgstr "Suchen..."
+
+#. Default: "close window"
+#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt:228
 msgid "close_window"
-msgstr "Fenster schliessen"
+msgstr ""
 
 #. Default: "Search"
-#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
+#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt:112
 msgid "label_search"
 msgstr "Suchen"
 
 #. Default: "Name"
-#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
+#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt:199
 msgid "listingheader_name"
 msgstr "Name"
 
 #. Default: "Groups:"
-#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
+#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt:122
 msgid "text_existing_groups"
 msgstr "Gruppen"
 
 #. Default: "Search Member:"
-#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
+#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt:96
 msgid "text_member_search"
 msgstr "Suche Mitglied"
 
 #. Default: "Search Site"
-#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt
+#: ../skins/userandgroupselectionwidget/userandgroupselect_popup.pt:98
 msgid "title_search_site"
 msgstr "Seite durchsuchen"
 

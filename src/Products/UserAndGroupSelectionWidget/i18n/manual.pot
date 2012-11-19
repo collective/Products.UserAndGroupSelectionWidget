@@ -17,9 +17,18 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: userandgroupselectionwidget\n"
 
+#. Default: "Remove selected users"
+#: ../skins/userandgroupselectionwidget/userandgroupselect.pt:107
+#: ../skins/userandgroupselectionwidget/userandgroupselect.pt:111
 msgid "Remove selected users"
 msgstr ""
 
+#. Default: "Remove user"
+#: ../skins/userandgroupselectionwidget/userandgroupselect.pt:111
 msgid "Remove user"
 msgstr ""
 
+#. Default: "Add me"
+#: ../skins/userandgroupselectionwidget/userandgroupselect.pt:115
+msgid "add_me"
+msgstr ""
