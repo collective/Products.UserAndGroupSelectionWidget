@@ -6,6 +6,10 @@ Changes
 3.0b5 (unreleased)
 ------------------
 
+- Added Spanish translation. (macagua)
+
+- Added improvements about i18n support. (macagua)
+
 - Fix python 2.7 compatibility. (wichert)
 
 
