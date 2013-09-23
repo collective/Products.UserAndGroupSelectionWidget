@@ -3,7 +3,7 @@
 Changes
 -------
 
-3.0b5 (unreleased)
+3.0b5 (2013-09-23)
 ------------------
 
 - Added Spanish translation. (macagua)
